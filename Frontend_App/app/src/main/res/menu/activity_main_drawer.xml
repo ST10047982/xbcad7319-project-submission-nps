@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_main_menu"
+            android:title="Main Menu" />
+        <item
+            android:id="@+id/nav_register_patient"
+            android:title="Register - Patient" />
+        <item
+            android:id="@+id/nav_login_patient"
+            android:title="Login - Patient" />
+        <item
+            android:id="@+id/nav_login_staff"
+            android:title="Login - Staff" />
+        <item
+            android:id="@+id/nav_home_patient"
+            android:title="Home - Patient" />
+        <item
+            android:id="@+id/nav_home_staff"
+            android:title="Home - Staff" />
+
+
+    </group>
+
+</menu>

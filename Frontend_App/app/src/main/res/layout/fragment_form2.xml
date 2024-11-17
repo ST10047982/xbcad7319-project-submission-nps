@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.form2.Form2Fragment">
+
+    <!-- Scrollable container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/iLogo"
+                android:layout_width="265dp"
+                android:layout_height="124dp"
+                android:src="@drawable/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.009" />
+
+            <!-- Title Text -->
+            <TextView
+                android:id="@+id/txtDenisha_Pather"
+                android:layout_width="224dp"
+                android:layout_height="38dp"
+                android:gravity="center"
+                android:text="Denisha Pather"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iLogo"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <!-- Subtitle Text -->
+            <TextView
+                android:id="@+id/txtPhysio"
+                android:layout_width="224dp"
+                android:layout_height="38dp"
+                android:gravity="center"
+                android:text="Physiotherapy"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDenisha_Pather"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <!-- Back Button -->
+            <ImageButton
+                android:id="@+id/ibtnBack"
+                android:layout_width="74dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="208dp"
+                android:backgroundTint="@color/blue"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.952"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Name Label -->
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="162dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="276dp"
+                android:text="Name:"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.156"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Date Label -->
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="162dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="468dp"
+                android:text="Date:"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.156"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Signature Label -->
+            <TextView
+                android:id="@+id/txtSigniture"
+                android:layout_width="162dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="836dp"
+                android:text="Signature:"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.156"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Name Input -->
+            <EditText
+                android:id="@+id/etxtName"
+                android:layout_width="276dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="308dp"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Dry Needling Consent Label -->
+            <TextView
+                android:id="@+id/txtDryNeedeled"
+                android:layout_width="340dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="372dp"
+                android:text="Areas of the body consented for Dry Needling:"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.549"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Dry Needling Input -->
+            <EditText
+                android:id="@+id/etxtDryNeedeled"
+                android:layout_width="278dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="412dp"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.548"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Confirmation Text -->
+            <TextView
+                android:id="@+id/txtConfirmation"
+                android:layout_width="298dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="212dp"
+                android:text="Please make sure you have read the terms and conditions before submitting this data."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.176"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Save Button -->
+
+            <!-- Clear Signature Button -->
+
+            <!-- Cancel Button -->
+
+            <!-- Calendar View -->
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="107dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="1108dp"
+                android:backgroundTint="@color/blue"
+                android:text="Save"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.309"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnClearSignature"
+                android:layout_width="241dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="1044dp"
+                android:backgroundTint="@color/blue"
+                android:text="Clear Signature"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.117"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="107dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="1108dp"
+                android:backgroundTint="@color/blue"
+                android:text="Cancel"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.72"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CalendarView
+                android:id="@+id/calendarView2"
+                android:layout_width="332dp"
+                android:layout_height="309dp"
+                android:layout_marginTop="500dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.746"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Signature View -->
+            <com.app.xbcad7319_physiotherapyapp.ui.SignatureView
+                android:id="@+id/signature_view"
+                android:layout_width="401dp"
+                android:layout_height="155dp"
+                android:layout_marginTop="884dp"
+                android:background="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>

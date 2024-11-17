@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.form1.Form1Fragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Logo Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo" />
+            </LinearLayout>
+
+            <!-- Header Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtDenisha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center"
+                    android:text="Denisha "
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtPhysio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Physiotherapy"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Terms and Back Button Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/txtConfirmation"
+                    android:layout_width="295dp"
+                    android:layout_height="62dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Please make sure you have read the terms and conditions before submitting this data." />
+
+                <ImageButton
+                    android:id="@+id/ibtnBack"
+                    android:layout_width="81dp"
+                    android:layout_height="72dp"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/blue"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back" />
+            </RelativeLayout>
+
+            <!-- Patient Details Section -->
+            <TextView
+                android:id="@+id/txtPatient_Details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="PATIENT DETAILS:"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Patient First Name -->
+            <TextView
+                android:id="@+id/txtPFirst_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="First Names:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPFirst_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+            <!-- Patient Surname -->
+            <TextView
+                android:id="@+id/txtPSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Surname:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+            <!-- Patient Title -->
+            <TextView
+                android:id="@+id/txtPTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Title:"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/sPTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Patient ID -->
+            <TextView
+                android:id="@+id/txtPID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="ID Number:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="number" />
+
+            <!-- Patient Age -->
+            <TextView
+                android:id="@+id/txtPAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Age:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <!-- Patient Address -->
+            <TextView
+                android:id="@+id/txtPAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Residential Address:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress" />
+
+            <!-- Patient Postal Code -->
+            <TextView
+                android:id="@+id/txtPCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Code:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <!-- Patient Contact Numbers -->
+            <TextView
+                android:id="@+id/txtPCelNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Cell Number:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPCelNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/txtPWorkTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Tel(work):"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPWorkTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/txtPHomeTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Tel(home):"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPHomeTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <!-- Patient Email -->
+            <TextView
+                android:id="@+id/txtPEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Email Address:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+            <!-- Patient Medical Aid Details -->
+            <TextView
+                android:id="@+id/txtPMedaiclName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Medical Aid Name:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPMedaiclName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/txtPMedicalNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Medical Aid Number:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtPMedicalNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <!-- Responsible Person Section -->
+            <TextView
+                android:id="@+id/txtResponsible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="PERSON RESPONSIBLE FOR ACCOUNT: \n(if different from patient)"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Responsible Person Details -->
+            <TextView
+                android:id="@+id/txtRFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="First Names:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/txtRSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Surname:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/txtRTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Title:"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/sRTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/txtRID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="ID Number:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/txtRAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Age:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/txtRAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Residential Address:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress" />
+
+            <TextView
+                android:id="@+id/txtRCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Code:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/txtRCelNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Cell Number:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRCelNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/txtRWorkNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Tel(work):"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRWorkNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/txtRHomeNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Tel(home):"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtRHomeNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/txtREmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Email Address:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtREmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+
+            <!-- Next of Kin Section -->
+            <TextView
+                android:id="@+id/txtKKin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="NEXT OF KIN:"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Next of Kin Details -->
+            <TextView
+                android:id="@+id/txtKName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Name:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtKName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/txtKAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Address:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtKAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress" />
+
+            <TextView
+                android:id="@+id/txtKCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Code:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtKCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+
+
+
+            <!-- Similar fields for next of kin... -->
+
+            <!-- Signature Section -->
+            <TextView
+                android:id="@+id/txtSignature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="SIGNATURE:"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Name:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtSName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="text" />
+
+            <Spinner
+                android:id="@+id/sType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+
+
+            <TextView
+                android:id="@+id/txtSCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Date:"
+                android:textSize="15sp" />
+
+            <!-- Buttons -->
+
+            <CalendarView
+                android:id="@+id/date"
+                android:layout_width="362dp"
+                android:layout_height="324dp" />
+
+            <TextView
+                android:id="@+id/txtSPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Palce:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etxtSPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/txtSSignature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Signature:"
+                android:textSize="15sp" />
+
+
+            <com.app.xbcad7319_physiotherapyapp.ui.SignatureView
+                android:id="@+id/signatureView2"
+                android:layout_width="match_parent"
+                android:background="@color/grey"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnClearSignature"
+                android:layout_width="241dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/blue"
+                android:text="Clear Signature"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="107dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/blue"
+                    android:text="Save"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="107dp"
+                    android:layout_height="45dp"
+                    android:backgroundTint="@color/blue"
+                    android:text="Cancel"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
