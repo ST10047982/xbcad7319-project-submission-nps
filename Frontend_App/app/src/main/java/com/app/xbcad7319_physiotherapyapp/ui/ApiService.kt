@@ -132,7 +132,7 @@ interface ApiService {
     ): Call<Patient>
 
     //need to fix profile stuff
-    @GET("api/patient/profile")
+    @GET("api/patient/profile/patient/{patientID}")
     fun getPatientProfile(
         @Header("Authorization") authToken: String
     ): Call<ProfileData>
