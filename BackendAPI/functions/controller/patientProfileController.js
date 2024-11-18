@@ -41,8 +41,11 @@ const savePatientProfile = async (req, res) => {
 // Get Patient Profile
 const getPatientProfile = async (req, res) => {
     try {
-        // Fetch the patient's profile using the patientID from the URL parameter
-        const patient = await User.findById(req.params.patientID).select('-password'); // Exclude the password field
+        // Assuming req.user is set by authentication middleware with the logged-in user's data
+        const patientID = req.user.id; // Get the logged-in user's ID
+
+        // Fetch the logged-in patient's profile using the user ID
+        const patient = await User.findById(patientID).select('-password'); // Exclude the password field
 
         if (!patient) {
             return res.status(404).json({ message: 'Patient not found' });
@@ -54,6 +57,54 @@ const getPatientProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// Get Patient Profile by ID from URL
+const getPatientProfileById = async (req, res) => {
+    try {
+        // Get the patient ID from the URL parameters
+        const patientID = req.params.id;
+
+        // Fetch the patient's profile by ID, excluding the password field
+        const patient = await User.findById(patientID).select('-password'); // Exclude password field
+
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        // Send back the patient's profile
+        res.status(200).json(patient);
+    } catch (error) {
+        console.error('Error fetching patient profile:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// API to find a user ID by name and surname
+const getUserIdByNameAndSurname = async (req, res) => {
+    try {
+        const { name, surname } = req.query; // Assuming name and surname are passed as query parameters
+
+        if (!name || !surname) {
+            return res.status(400).json({ message: 'Name and surname are required.' });
+        }
+
+        console.log(`Searching for user with name: ${name} and surname: ${surname}`);
+
+        // Search for the user in the database
+        const user = await User.findOne({ name, surname }).select('_id'); // Select only the ID field
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Respond with the user's ID
+        res.status(200).json({ userId: user._id });
+    } catch (error) {
+        console.error('Error finding user ID:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 
 // Get All Patient Names
 const getAllPatientNames = async (req, res) => {
@@ -70,10 +121,7 @@ const getAllPatientNames = async (req, res) => {
         }
 
         // Map to extract 'name' and 'surname' from each patient document
-        const patientNames = patients.map(patient => ({
-            name: patient.name,
-            surname: patient.surname
-        }));
+        const patientNames = patients.map(patient => `${patient.name} ${patient.surname}`);
 
         // Return the list of patient names
         res.status(200).json({ patientNames });
@@ -84,12 +132,10 @@ const getAllPatientNames = async (req, res) => {
 };
 
 
-
-
-
-
 module.exports = {
     savePatientProfile,
     getPatientProfile,
+    getPatientProfileById,
     getAllPatientNames, // Export the new function
+    getUserIdByNameAndSurname,
 };

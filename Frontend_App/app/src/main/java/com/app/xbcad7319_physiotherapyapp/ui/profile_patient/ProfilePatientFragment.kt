@@ -3,6 +3,7 @@ package com.app.xbcad7319_physiotherapyapp.ui.profile_patient
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,35 +75,45 @@ class ProfilePatientFragment : Fragment() {
     }
 
     private fun loadPatientProfile() {
-        val token = sharedPref.getString("bearerToken", "") ?: ""
-        if (token.isEmpty()) {
-            showToast("Not authenticated. Please login again.")
-            findNavController().navigate(R.id.action_nav_patient_profile_to_login_patient)
+        val token = sharedPref.getString("bearerToken", null)?.let { "Bearer $it" }
+        if (token.isNullOrEmpty()) {
+           showToast("User is not logged in. Please log in again.")
             return
         }
+        val call = apiService.getPatientProfile(token)
+        Log.d("PatientProfileFragment", "API call initiated to fetch patient profile")
 
-        // Add Bearer prefix to token
-        val authToken = "Bearer $token"
-
-        apiService.getPatientProfile(authToken).enqueue(object : Callback<ProfileData> {
+        call.enqueue(object : Callback<ProfileData> {
             override fun onResponse(call: Call<ProfileData>, response: Response<ProfileData>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { profile ->
+                    val profile = response.body()
+                    if (profile != null) {
+                        Log.d(
+                            "PatientProfileFragment",
+                            "Patient profile fetched successfully: $profile"
+                        )
                         // Populate the EditText fields with the user's profile data
                         etxtEmail.setText(profile.email)
                         etxtPhoneNumber.setText(profile.phoneNumber)
                         etxtMedicalAid.setText(profile.medicalAid)
                         etxtMedicalAidNumber.setText(profile.medicalAidNumber)
-                    } ?: run {
-                        showToast("Profile data is empty or null")
+                    } else {
+                        Log.w("PatientProfileFragment", "Response body is null. No profile found.")
+                        showToast("No profile data found.")
                     }
                 } else {
-                    showToast("Failed to load profile: ${response.message()}")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e(
+                        "PatientProfileFragment",
+                        "Failed to load profile. Code: ${response.code()}, Error: $errorBody"
+                    )
+                    showToast("Failed to load profile. Code: ${response.code()}, Error: ${errorBody ?: "Unknown error"}")
                 }
             }
 
             override fun onFailure(call: Call<ProfileData>, t: Throwable) {
-                showToast("Error loading profile: ${t.message}")
+                Log.e("PatientProfileFragment", "API call failed with error: ${t.message}", t)
+                showToast("Error: Unable to connect to server. ${t.message}")
             }
         })
     }
