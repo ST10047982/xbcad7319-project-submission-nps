@@ -11,32 +11,6 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/ibtnPatient_Notes"
-            android:layout_width="355dp"
-            android:layout_height="154dp"
-            android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
-            android:src="@drawable/patient_notes"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.577" />
-
-        <TextView
-            android:id="@+id/txtPatient_Notes"
-            android:layout_width="187dp"
-            android:layout_height="22dp"
-            android:gravity="center"
-            android:text="Make Appointments Notes"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.644" />
-
-        <ImageButton
             android:id="@+id/ibtnAppointments"
             android:layout_width="171dp"
             android:layout_height="141dp"
@@ -63,6 +37,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.325" />
+
+        <ImageButton
+            android:id="@+id/ibtnPatient_Notes"
+            android:layout_width="171dp"
+            android:layout_height="141dp"
+            android:backgroundTint="@color/blue"
+            android:scaleType="fitCenter"
+            android:src="@drawable/patient_notes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.883"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.588" />
+
+        <ImageButton
+            android:id="@+id/ibtnView_Patient_Notes"
+            android:layout_width="171dp"
+            android:layout_height="141dp"
+            android:backgroundTint="@color/blue"
+            android:scaleType="fitCenter"
+            android:src="@drawable/patient_notes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.588" />
 
         <ImageButton
             android:id="@+id/ibtnBilling"
@@ -160,6 +162,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.428" />
+
+        <TextView
+            android:id="@+id/txtNotes"
+            android:layout_width="187dp"
+            android:layout_height="22dp"
+            android:gravity="center"
+            android:text="Make Notes"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.928"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.645" />
+
+        <TextView
+            android:id="@+id/txtViewNotes"
+            android:layout_width="187dp"
+            android:layout_height="22dp"
+            android:gravity="center"
+            android:text="View Notes"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.089"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.645" />
 
         <TextView
             android:id="@+id/txtPatient_Profile"

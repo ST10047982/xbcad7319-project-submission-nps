@@ -48,6 +48,7 @@ class HomeStaffFragment : Fragment() {
         // Initialize buttons and set OnClickListeners
         val ibtnNotifications: ImageButton = view.findViewById(R.id.ibtnNotifications)
         val ibtnPatientNotes: ImageButton = view.findViewById(R.id.ibtnPatient_Notes)
+        val ibtnViewPatientNotes: ImageButton = view.findViewById(R.id.ibtnView_Patient_Notes)
         val ibtnViewPatientProfile: ImageButton = view.findViewById(R.id.ibtnPatient_Profile)
         val ibtnBilling: ImageButton = view.findViewById(R.id.ibtnBilling)
         val ibtnApp: ImageButton = view.findViewById(R.id.ibtnAppointments)
@@ -58,6 +59,9 @@ class HomeStaffFragment : Fragment() {
         }
         ibtnPatientNotes.setOnClickListener {
             findNavController().navigate(R.id.action_nav_home_staff_to_nav_app_notes)
+        }
+        ibtnViewPatientNotes.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_home_staff_to_nav_view_app_notes)
         }
         ibtnViewPatientProfile.setOnClickListener {
             findNavController().navigate(R.id.action_nav_home_staff_to_nav_view_patient_profile)

@@ -194,6 +194,9 @@
         <action
             android:id="@+id/action_nav_home_staff_to_nav_login_staff"
             app:destination="@id/nav_login_staff" />
+        <action
+            android:id="@+id/action_nav_home_staff_to_nav_view_app_notes"
+            app:destination="@id/nav_view_app_notes" />
 
     </fragment>
 
@@ -329,5 +332,10 @@
             app:destination="@id/nav_intake_forms" />
 
     </fragment>
+    <fragment
+        android:id="@+id/nav_view_app_notes"
+        android:name="com.app.xbcad7319_physiotherapyapp.ui.view_app_notes.ViewAppNotesFragment"
+        android:label="fragment_view_app_notes"
+        tools:layout="@layout/fragment_view_app_notes" />
 
 </navigation>

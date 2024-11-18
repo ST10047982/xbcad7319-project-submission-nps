@@ -201,7 +201,7 @@ class RescheduleAppPatientFragment : Fragment() {
                 val selectedAppointment = appointments[position]
                 selectedAppointmentId = selectedAppointment.id
                 Log.d(TAG, "Selected appointment ID: $selectedAppointmentId")
-                showToast("Selected Appointment: ${selectedAppointment.id}")
+
             }
         }
     }
