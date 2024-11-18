@@ -22,12 +22,18 @@ import com.app.xbcad7319_physiotherapyapp.R
 import com.app.xbcad7319_physiotherapyapp.ui.ApiService
 import com.app.xbcad7319_physiotherapyapp.ui.Form1Request
 import com.app.xbcad7319_physiotherapyapp.ui.SignatureView
+import com.app.xbcad7319_physiotherapyapp.ui.form2.Form2State
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.util.*
+
+object Form1State {
+    var isFormFilled: Boolean = false
+}
+
 
 class Form1Fragment : Fragment() {
 
@@ -77,6 +83,9 @@ class Form1Fragment : Fragment() {
     private lateinit var btnSave: Button
     private lateinit var ibtnBack: ImageButton
     private lateinit var btnClearSignature: Button
+
+    private var FormFilled: Boolean = false
+
 
     private lateinit var apiService: ApiService
 
@@ -150,6 +159,7 @@ class Form1Fragment : Fragment() {
         // Save button functionality
         btnSave.setOnClickListener {
             Log.d("Form1Fragment", "Save button clicked")
+            Form1State.isFormFilled = false // Use the global state
             submitForm1Data()
         }
 
@@ -188,6 +198,7 @@ class Form1Fragment : Fragment() {
             }
             etxtSSignature.onTouchEvent(event) // Pass the event to SignatureView
         }
+
 
         return view
     }
@@ -286,97 +297,7 @@ class Form1Fragment : Fragment() {
     }
 
 
-//    private fun submitForm1Data() {
-//        // Validate required input fields
-//        if (firstNamePEditText.text.isNullOrEmpty() ||
-//            surnamePEditText.text.isNullOrEmpty() ||
-//            idPEditText.text.isNullOrEmpty() ||
-//            agePEditText.text.isNullOrEmpty() ||
-//            addressPEditText.text.isNullOrEmpty() ||
-//            codePEditText.text.isNullOrEmpty() ||
-//            cellNumberPEditText.text.isNullOrEmpty() ||
-//            emailPEditText.text.isNullOrEmpty() ||
-//            firstNameKEditText.text.isNullOrEmpty() ||
-//            addressKEditText.text.isNullOrEmpty() ||
-//            codeKEditText.text.isNullOrEmpty() ||
-//            nameSEditText.text.isNullOrEmpty() ||
-//            placeSEditText.text.isNullOrEmpty() ||
-//            !::selectedDate.isInitialized // Ensure the date is selected
-//        ) {
-//            Log.e("Form1Fragment", "Validation failed: incomplete form data")
-//            Toast.makeText(context, "Please complete all required fields", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        // Capture the signature
-//        val signature = captureSignature()
-//        if (signature.isNullOrEmpty()) {
-//            Log.e("Form1Fragment", "Signature is empty")
-//            Toast.makeText(context, "Please provide a signature", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        // Create the Form1Request object, ensuring null safety for optional fields
-//        val form1Request = Form1Request(
-//            firstNameP = firstNamePEditText.text.toString(),
-//            surnameP = surnamePEditText.text.toString(),
-//            titleP = titlePSpinner.selectedItem?.toString(),
-//            idP = idPEditText.text.toString(),
-//            ageP = agePEditText.text.toString(),
-//            addressP = addressPEditText.text.toString(),
-//            codeP = codePEditText.text.toString(),
-//            cellNumberP = cellNumberPEditText.text.toString(),
-//            workNumberP = if (workNumberPEditText.text.isNotEmpty()) workNumberPEditText.text.toString() else null,
-//            homeNumberP = if (homeNumberPEditText.text.isNotEmpty()) homeNumberPEditText.text.toString() else null,
-//            emailP = emailPEditText.text.toString(),
-//            medicalAidNameP = if (medicalAidNamePEditText.text.isNotEmpty()) medicalAidNamePEditText.text.toString() else null,
-//            medicalAidNumberP = if (medicalAidNumberPEditText.text.isNotEmpty()) medicalAidNumberPEditText.text.toString() else null,
-//
-//            // Optional responsible party details
-//            firstNameR = firstNameREditText.text.toString().takeIf { it.isNotEmpty() },
-//            surnameR = surnameREditText.text.toString().takeIf { it.isNotEmpty() },
-//            titleR = titleRSpinner.selectedItem?.toString().takeIf { it?.isNotEmpty() == true },
-//            idR = idEditRText.text.toString().takeIf { it.isNotEmpty() },
-//            ageR = ageEditRText.text.toString().takeIf { it.isNotEmpty() },
-//            addressR = addressREditText.text.toString().takeIf { it.isNotEmpty() },
-//            codeR = codeREditText.text.toString().takeIf { it.isNotEmpty() },
-//            cellNumberR = cellNumberREditText.text.toString().takeIf { it.isNotEmpty() },
-//            workNumberR = workNumberREditText.text.toString().takeIf { it.isNotEmpty() },
-//            homeNumberR = homeNumberREditText.text.toString().takeIf { it.isNotEmpty() },
-//            emailR = emailREditText.text.toString().takeIf { it.isNotEmpty() },
-//
-//            // Next of kin details
-//            firstNameK = firstNameKEditText.text.toString(),
-//            addressK = addressKEditText.text.toString(),
-//            codeK = codeKEditText.text.toString(),
-//
-//            // Other required fields
-//            nameS = nameSEditText.text.toString(),
-//            type = typeSpinner.selectedItem?.toString() ?: "",
-//            signature = signature, // Use the captured signature
-//            placeS = placeSEditText.text.toString(),
-//            date = selectedDate // Use the selected date
-//        )
-//
-//        // Submit the form data via API
-//        apiService.submitForm1Data(form1Request).enqueue(object : Callback<ResponseBody> {
-//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-//                if (response.isSuccessful) {
-//                    Toast.makeText(context, "Data submitted successfully", Toast.LENGTH_SHORT).show()
-//                    clearAllFields() // Clear form fields upon success
-//                } else {
-//                    Log.e("Form1Fragment", "Submission failed: ${response.message()}")
-//                    Toast.makeText(context, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                Log.e("Form1Fragment", "Submission error: ${t.message}", t)
-//                Toast.makeText(context, "Submission failed: ${t.message}", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
-//
+
 
     private fun submitForm1Data() {
         // Validate required input fields (only check non-empty for required fields)
@@ -396,8 +317,11 @@ class Form1Fragment : Fragment() {
             !::selectedDate.isInitialized
         ) {
             Log.e("Form1Fragment", "Validation failed: incomplete form data")
-            Toast.makeText(context, "Please complete all required fields", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, "Please complete all required fields", Toast.LENGTH_SHORT).show()
+
+            // Ensure FormFilled is false when validation fails
+            FormFilled = false
+            Log.d("FormStatus", "Form filled status: $FormFilled")
             return
         }
 
@@ -406,6 +330,10 @@ class Form1Fragment : Fragment() {
         if (signature.isNullOrEmpty()) {
             Log.e("Form1Fragment", "Signature is empty")
             Toast.makeText(context, "Please provide a signature", Toast.LENGTH_SHORT).show()
+
+            // Ensure FormFilled is false if signature is empty
+            FormFilled = false
+            Log.d("FormStatus", "Form filled status: $FormFilled")
             return
         }
 
@@ -455,16 +383,19 @@ class Form1Fragment : Fragment() {
         apiService.submitForm1Data(form1Request).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Data submitted successfully", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Data submitted successfully", Toast.LENGTH_SHORT).show()
+                    FormFilled = true
+                    Log.d("FormStatus", "Form filled status: $FormFilled")
+                    Form1State.isFormFilled = true
+                    // Clear all fields after successful submission
                     clearAllFields()
                 } else {
                     Log.e("Form1Fragment", "Submission failed: ${response.message()}")
-                    Toast.makeText(
-                        context,
-                        "Submission failed: ${response.message()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+
+                    // Ensure FormFilled is false if submission failed
+                    Form1State.isFormFilled = false
+                    Log.d("FormStatus", "Form filled status: $FormFilled")
                 }
             }
 

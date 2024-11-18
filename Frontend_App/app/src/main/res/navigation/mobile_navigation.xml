@@ -142,6 +142,9 @@
         <action
             android:id="@+id/action_nav_book_app_patient_to_nav_app"
             app:destination="@id/nav_app" />
+        <action
+            android:id="@+id/action_nav_book_app_patient_to_nav_intake_forms"
+            app:destination="@id/nav_intake_forms" />
     </fragment>
 
 

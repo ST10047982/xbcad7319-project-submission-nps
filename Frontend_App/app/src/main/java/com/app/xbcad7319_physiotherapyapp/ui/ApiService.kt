@@ -259,14 +259,7 @@ data class Form2Request(
     val name: String,
     val areasConcernedForNeedling: String,
     val date: Date,
-    val signature: String
-)
-
-data class Form2(
-    val name: String,
-    val areasConsented: String,
-    val date: Date,
-    val signature: String
+    val signature: String,
 )
 
 
