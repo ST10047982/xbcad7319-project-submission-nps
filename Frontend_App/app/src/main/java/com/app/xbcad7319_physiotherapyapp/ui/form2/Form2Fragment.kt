@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.app.xbcad7319_physiotherapyapp.R
-
 import com.app.xbcad7319_physiotherapyapp.ui.ApiService
 import com.app.xbcad7319_physiotherapyapp.ui.Form2Request
 import com.app.xbcad7319_physiotherapyapp.ui.SignatureView
@@ -28,6 +27,10 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.util.*
 
+object Form2State {
+    var isFormFilled: Boolean = false
+}
+
 class Form2Fragment : Fragment() {
 
     private lateinit var nameEditText: EditText
@@ -35,8 +38,8 @@ class Form2Fragment : Fragment() {
     private lateinit var signatureView: SignatureView
     private lateinit var calendarView: CalendarView
     private lateinit var btnClearSignature: Button
-    private lateinit var btnCancel: Button // Add a reference for the Cancel button
-    private lateinit var selectedDate: Date  // Keep `selectedDate` as Date type
+    private lateinit var btnCancel: Button
+    private lateinit var selectedDate: Date
 
     private lateinit var apiService: ApiService
 
@@ -52,7 +55,7 @@ class Form2Fragment : Fragment() {
         signatureView = view.findViewById(R.id.signature_view)
         calendarView = view.findViewById(R.id.calendarView2)
         btnClearSignature = view.findViewById(R.id.btnClearSignature)
-        btnCancel = view.findViewById(R.id.btnCancel) // Initialize the Cancel button
+        btnCancel = view.findViewById(R.id.btnCancel)
 
         // Initialize apiService
         apiService = com.app.xbcad7319_physiotherapyapp.ui.ApiClient.getRetrofitInstance(requireContext()).create(ApiService::class.java)
@@ -61,7 +64,7 @@ class Form2Fragment : Fragment() {
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
-            selectedDate = calendar.time  // Store the selected date as a Date object
+            selectedDate = calendar.time
             Log.d("Form2Fragment", "Selected date: $selectedDate")
         }
 
@@ -88,6 +91,7 @@ class Form2Fragment : Fragment() {
         val btnSave: Button = view.findViewById(R.id.btnSave)
         btnSave.setOnClickListener {
             Log.d("Form2Fragment", "Save button clicked")
+            Form2State.isFormFilled = false // Use the global state
             submitForm2Data()
         }
 
@@ -121,6 +125,8 @@ class Form2Fragment : Fragment() {
         signatureView.clearSignature() // Clear the signature view
         calendarView.setDate(System.currentTimeMillis(), false, true) // Reset the calendar to today's date
         Toast.makeText(context, "All fields cleared", Toast.LENGTH_SHORT).show() // Optional feedback
+
+
     }
 
     // Capture signature as Base64 string
@@ -166,7 +172,8 @@ class Form2Fragment : Fragment() {
             name = name,
             areasConcernedForNeedling = areaConsented,
             date = selectedDate, // Keep the date as Date type
-            signature = signature
+            signature = signature,
+
         )
 
         Log.d("Form2Fragment", "Submitting Form2Request: $form2Request")
@@ -178,9 +185,11 @@ class Form2Fragment : Fragment() {
                     Log.d("Form2Fragment", "Form submitted successfully")
                     Toast.makeText(context, "Form submitted successfully", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_nav_form2_to_nav_intake_forms)
+                    Form2State.isFormFilled = true
                 } else {
                     Log.e("Form2Fragment", "Form submission failed: ${response.errorBody()?.string()}")
                     Toast.makeText(context, "Failed to submit form", Toast.LENGTH_SHORT).show()
+                    Form2State.isFormFilled = false
                 }
             }
 

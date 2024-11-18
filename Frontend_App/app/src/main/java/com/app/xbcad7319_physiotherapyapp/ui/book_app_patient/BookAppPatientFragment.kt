@@ -23,6 +23,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.util.Log
+import com.app.xbcad7319_physiotherapyapp.ui.form1.Form1State
+import com.app.xbcad7319_physiotherapyapp.ui.form2.Form2State
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -92,7 +94,7 @@ class BookAppPatientFragment : Fragment() {
 
             // Check if the token and username are valid
             if (tokenResponse == null || username == null) {
-                Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "User not  logged in", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -117,6 +119,15 @@ class BookAppPatientFragment : Fragment() {
                 if (token.isEmpty()) {
                     throw JSONException("Token field is missing")
                 }
+
+                // Check if the Form2 state is filled before allowing booking
+                if (!Form2State.isFormFilled || !Form1State.isFormFilled) {
+                    Toast.makeText(requireContext(), "Please fill out the required form first", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_nav_book_app_patient_to_nav_intake_forms)
+                    return@setOnClickListener
+                }
+
+
 
                 // Create an AppointmentRequest with the necessary details
                 val appointmentRequest = BookAppointmentRequest(
