@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.app.xbcad7319_physiotherapyapp.R
 import com.app.xbcad7319_physiotherapyapp.ui.ApiService
 import com.app.xbcad7319_physiotherapyapp.ui.AppointmentDetails
@@ -21,6 +22,7 @@ class CancelAppPatientFragment : Fragment() {
 
     private lateinit var listAppointments: ListView
     private lateinit var btnCancelAppointment: Button
+    private lateinit var ibtnHome: ImageButton
     private lateinit var sharedPref: SharedPreferences
     private val apiService: ApiService by lazy {
         com.app.xbcad7319_physiotherapyapp.ui.ApiClient.getRetrofitInstance(requireContext()).create(ApiService::class.java)
@@ -38,7 +40,7 @@ class CancelAppPatientFragment : Fragment() {
         sharedPref = requireActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
         listAppointments = view.findViewById(R.id.listAppointments)
         btnCancelAppointment = view.findViewById(R.id.btnCancel)
-
+        ibtnHome =  view.findViewById(R.id.ibtnHome)
         fetchAndDisplayAppointments()
 
         btnCancelAppointment.setOnClickListener {
@@ -47,6 +49,11 @@ class CancelAppPatientFragment : Fragment() {
             } ?: showToast("Please select an appointment to cancel.")
         }
 
+        // Home button navigation
+
+        ibtnHome.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_cancel_app_patient_to_nav_app)
+        }
         return view
     }
 
