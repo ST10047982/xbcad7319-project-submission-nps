@@ -41,14 +41,14 @@ const savePatientProfile = async (req, res) => {
 // Get Patient Profile
 const getPatientProfile = async (req, res) => {
     try {
-        // Fetch the user's profile using the logged-in user's ID
-        const user = await User.findById(req.user._id).select('-password'); // Exclude the password field
+        // Fetch the patient's profile using the patientID from the URL parameter
+        const patient = await User.findById(req.params.patientID).select('-password'); // Exclude the password field
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
         }
 
-        res.status(200).json(user);
+        res.status(200).json(patient);
     } catch (error) {
         console.error('Error fetching patient profile:', error);
         res.status(500).json({ message: 'Server error' });
@@ -58,17 +58,25 @@ const getPatientProfile = async (req, res) => {
 // Get All Patient Names
 const getAllPatientNames = async (req, res) => {
     try {
-        // Fetch all patient names where the role is 'patient'
-        const patients = await User.find({ role: 'patient' }).select('name'); // Select only the 'name' field
+        console.log('Fetching all patients with role "patient"');
+
+        // Fetch all patients with role 'patient' and select 'name' and 'surname' fields
+        const patients = await User.find({ role: 'patient' }).select('name surname');
+
+        console.log('Fetched patients:', patients);
 
         if (!patients || patients.length === 0) {
             return res.status(404).json({ message: 'No patients found' });
         }
 
-        // Map the results to a list of patient names
-        const patientNames = patients.map(patient => patient.name);
+        // Map to extract 'name' and 'surname' from each patient document
+        const patientNames = patients.map(patient => ({
+            name: patient.name,
+            surname: patient.surname
+        }));
 
-        res.status(200).json(patientNames);
+        // Return the list of patient names
+        res.status(200).json({ patientNames });
     } catch (error) {
         console.error('Error fetching patient names:', error);
         res.status(500).json({ message: 'Server error' });

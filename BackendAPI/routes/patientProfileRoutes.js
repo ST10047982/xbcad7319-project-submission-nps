@@ -11,8 +11,10 @@ const { savePatientProfile, getPatientProfile, getAllPatientNames } = require('.
 router.put('/update', protect, savePatientProfile); // Use PUT for updating
 
 // Route to get patient profile
-router.get('/:patientID', protect, getPatientProfile); // GET to fetch the profile
+router.get('/patient/:patientID', protect, getPatientProfile); // GET to fetch the profile
 
-router.get('/names', getAllPatientNames);
+// Route to get all patient names
+router.get('/patients/names', protect, getAllPatientNames); // GET to fetch all patient names
+
 
 module.exports = router;
