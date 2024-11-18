@@ -12,6 +12,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.Date
 
 interface ApiService {
@@ -118,21 +119,25 @@ interface ApiService {
     @POST("api/medicalHistory")
     fun saveMedicalHistory(@Header("Authorization") token: String, @Body medicalHistory: MedicalHistory): Call<Void>
 
-    // API call to fetch all patient names
-    @GET("api/patient/profile/names")
+    // Assuming the response body now returns an object with a 'patientNames' field
+    @GET("api/patient/profile/patients/names")
     fun getPatientNames(
         @Header("Authorization") authToken: String
-    ): Call<List<String>>
+    ): Call<PatientNamesResponse>
 
-    // API call to fetch a specific patient's profile
-    @GET("api/patient/profile/patients/{patientID}")
-    fun getPatientProfileStaff(
-        @Header("Authorization") token: String,
-        @Path("id") patientId: String
-    ): Call<Patient>
+    // Data class to map the response
+    data class PatientNamesResponse(
+        val patientNames: List<String>
+    )
 
-    //need to fix profile stuff
-    @GET("api/patient/profile/patient/{patientID}")
+    // API call to fetch a specific patient's profile by ID
+    @GET("api/patient/profile/patient/{id}")
+    fun getPatientProfileById(
+        @Path("id") patientID: String
+    ): Call<ProfileData>
+
+
+    @GET("api/patient/profile/patient/profile")
     fun getPatientProfile(
         @Header("Authorization") authToken: String
     ): Call<ProfileData>
@@ -158,8 +163,17 @@ interface ApiService {
         @Path("testId") testId: String
     ): Call<ResponseBody>
 
+    @GET("api/patient/profile/patients/namestoID")
+    fun getUserIdByNameAndSurname(
+        @Query("name") name: String,
+        @Query("surname") surname: String
+    ): Call<UserIdResponse>
 
 }
+
+data class UserIdResponse(
+    val userId: String
+)
 
 data class ProfileData(
     val email: String,

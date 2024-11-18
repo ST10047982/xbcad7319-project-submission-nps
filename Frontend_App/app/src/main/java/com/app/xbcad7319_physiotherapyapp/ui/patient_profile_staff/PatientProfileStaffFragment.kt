@@ -13,7 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.app.xbcad7319_physiotherapyapp.R
 import com.app.xbcad7319_physiotherapyapp.ui.ApiClient
 import com.app.xbcad7319_physiotherapyapp.ui.ApiService
-import com.app.xbcad7319_physiotherapyapp.ui.Patient
+import com.app.xbcad7319_physiotherapyapp.ui.ProfileData
+import com.app.xbcad7319_physiotherapyapp.ui.UserIdResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +62,7 @@ class PatientProfileStaffFragment : Fragment() {
         // Button to view selected patient profile
         btnView.setOnClickListener {
             if (selectedPatientName != null) {
+
                 Toast.makeText(requireContext(), "Selected: $selectedPatientName", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Please select a patient", Toast.LENGTH_SHORT).show()
@@ -69,86 +71,139 @@ class PatientProfileStaffFragment : Fragment() {
     }
 
     private fun loadPatientNames() {
-        val token = sharedPref.getString("bearerToken", "") ?: ""
-        if (token.isEmpty()) {
-            Toast.makeText(requireContext(), "Not authenticated. Please login again.", Toast.LENGTH_SHORT).show()
+        val token = sharedPref.getString("bearerToken", null)?.let { "Bearer $it" }
+        if (token.isNullOrEmpty()) {
+            showToast("User is not logged in. Please log in again.")
             return
         }
+        val call = apiService.getPatientNames(token)
+        Log.d("PatientNamesFragment", "API call initiated to fetch patient names")
 
-        val authToken = "Bearer $token"
-
-        apiService.getPatientNames(authToken).enqueue(object : Callback<List<String>> {
-            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+        call.enqueue(object : Callback<ApiService.PatientNamesResponse> {
+            override fun onResponse(call: Call<ApiService.PatientNamesResponse>, response: Response<ApiService.PatientNamesResponse>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { patientNames ->
-                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, patientNames)
+                    val patientNames = response.body()?.patientNames
+                    if (patientNames != null) {
+                        Log.d("PatientNamesFragment", "Patient names fetched successfully: $patientNames")
+
+                        // Set up the ListView with the fetched patient names
+                        val adapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            patientNames
+                        )
                         listView.adapter = adapter
 
                         listView.setOnItemClickListener { _, _, position, _ ->
                             selectedPatientName = patientNames[position]
                             txtSelectedPatient.text = "Selected Patient: $selectedPatientName"
+                            // Assuming the name and surname are separated by a space
+                            val (name, surname) = selectedPatientName!!.split(" ", limit = 2)
+                            getUserIdByNameAndSurname(name, surname)
+
                         }
-                    } ?: run {
+                    } else {
+                        Log.w("PatientNamesFragment", "Response body is null. No patients found.")
                         Toast.makeText(requireContext(), "No patients found.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Log.e("API_ERROR", "Error: ${response.errorBody()?.string()}")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("PatientNamesFragment", "Failed to load patients. Code: ${response.code()}, Error: $errorBody")
                     Toast.makeText(requireContext(), "Failed to load patients.", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                Log.e("API_ERROR", "Failure: ${t.message}")
+            override fun onFailure(call: Call<ApiService.PatientNamesResponse>, t: Throwable) {
+                Log.e("PatientNamesFragment", "API call failed with error: ${t.message}", t)
                 Toast.makeText(requireContext(), "Error loading patients: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-
-    private fun getPatientProfile(patientId: String) {
-        val token = sharedPref.getString("bearerToken", "") ?: ""
-        if (token.isEmpty()) {
-            Toast.makeText(requireContext(), "Not authenticated. Please login again.", Toast.LENGTH_SHORT).show()
+    private fun getPatientProfile(patientID: String) {
+        if (patientID.isEmpty()) {
+            showToast("Patient ID is required to fetch the profile.")
             return
         }
 
-        val authToken = "Bearer $token"
-
-        apiService.getPatientProfileStaff(authToken, patientId).enqueue(object : Callback<Patient> {
-            override fun onResponse(call: Call<Patient>, response: Response<Patient>) {
+        apiService.getPatientProfileById(patientID).enqueue(object : Callback<ProfileData> {
+            override fun onResponse(call: Call<ProfileData>, response: Response<ProfileData>) {
                 if (response.isSuccessful) {
                     response.body()?.let { patientProfile ->
                         // Update the UI with the patient's full profile
                         displayPatientProfile(patientProfile)
                     } ?: run {
-                        Toast.makeText(requireContext(), "Failed to load patient profile.", Toast.LENGTH_SHORT).show()
+                        Log.w("PatientProfile", "Profile data is null.")
+                        showToast("Failed to load patient profile.")
                     }
                 } else {
-                    Log.e("API_ERROR", "Error: ${response.errorBody()?.string()}")
-                    Toast.makeText(requireContext(), "Failed to load patient profile.", Toast.LENGTH_SHORT).show()
+                    val errorBody = response.errorBody()?.string()
+                    Log.e(
+                        "PatientProfile",
+                        "Failed to load patient profile. Code: ${response.code()}, Error: $errorBody"
+                    )
+                    showToast("Failed to load patient profile. Error: ${errorBody ?: "Unknown error"}")
                 }
             }
 
-            override fun onFailure(call: Call<Patient>, t: Throwable) {
-                Log.e("API_ERROR", "Failure: ${t.message}")
-                Toast.makeText(requireContext(), "Error loading patient profile: ${t.message}", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<ProfileData>, t: Throwable) {
+                Log.e("PatientProfile", "API call failed: ${t.message}", t)
+                showToast("Error loading patient profile: ${t.message}")
             }
         })
     }
 
-    private fun displayPatientProfile(profile: Patient) {
+
+
+    private fun displayPatientProfile(profile: ProfileData) {
         // Concatenate the patient details into a single string to display in one TextView
         val profileDetails = """
-            Name: ${profile.name}
-            Email: ${profile.email}
+             Email: ${profile.email}
             Phone Number: ${profile.phoneNumber}
             Medical Aid: ${profile.medicalAid}
             Medical Aid Number: ${profile.medicalAidNumber}
-            // Add more fields as needed based on your profile structure
+        
         """.trimIndent()
 
         // Find the TextView and set the text to display all profile details
         val txtPatientDetails = view?.findViewById<TextView>(R.id.txtPatientDetails)
         txtPatientDetails?.text = profileDetails
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getUserIdByNameAndSurname(name: String, surname: String) {
+        if (name.isEmpty() || surname.isEmpty()) {
+            showToast("Name and surname are required.")
+            return
+        }
+
+        apiService.getUserIdByNameAndSurname(name, surname).enqueue(object : Callback<UserIdResponse> {
+            override fun onResponse(call: Call<UserIdResponse>, response: Response<UserIdResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { userIdResponse ->
+                        val userId = userIdResponse.userId
+                        Log.d("UserSearch", "Found user ID: $userId")
+                        Toast.makeText(requireContext(), "User ID: $userId", Toast.LENGTH_SHORT).show()
+                        getPatientProfile(userId);
+                    } ?: run {
+                        Log.w("UserSearch", "User ID not found in response.")
+                        showToast("Failed to find user ID.")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("UserSearch", "Failed to fetch user ID. Error: $errorBody")
+                    showToast("Failed to fetch user ID.")
+                }
+            }
+
+            override fun onFailure(call: Call<UserIdResponse>, t: Throwable) {
+                Log.e("UserSearch", "API call failed: ${t.message}", t)
+                showToast("Error finding user ID: ${t.message}")
+            }
+        })
+    }
+
 }
