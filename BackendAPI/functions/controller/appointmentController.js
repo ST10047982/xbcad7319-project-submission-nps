@@ -70,37 +70,45 @@ const rescheduleAppointment = async (req, res) => {
 // Cancel an appointment
 const cancelAppointment = async (req, res) => {
     const appointmentId = req.params.appointmentId.trim();
-    console.log(`Attempting to cancel appointment with ID: ${appointmentId}`);
+    const { date, time, description } = req.body;
 
     try {
         const appointment = await Appointment.findById(appointmentId);
-        console.log('Fetched appointment:', appointment);
 
         if (!appointment) {
-            console.log('Appointment not found');
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        // Check if the appointment is already canceled
+        //Check if the appointment is already canceled
         if (appointment.status === 'canceled') {
             console.log('Appointment is already canceled');
             return res.status(400).json({ message: 'This appointment has already been canceled' });
         }
 
-        // Check if the logged-in user is the patient or a staff member
-        if (appointment.patient.toString() !== req.user._id.toString() && req.user.role !== 'staff') {
-            console.log('Permission denied: user is not authorized to cancel this appointment');
-            return res.status(403).json({ message: 'You do not have permission to cancel this appointment' });
+        // Check if the appointment status is 'approved'
+        if (appointment.status !== 'approved') {
+            return res.status(400).json({ message: 'Only approved appointments can be canceled' });
         }
 
-        // Mark the appointment as canceled instead of deleting it
-        appointment.status = 'canceled';
-        await appointment.save();
+        // Check if the logged-in user is allowed to reschedule this appointment
+        if (appointment.patient.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'You do not have permission to canceled this appointment' });
+        }
 
-        console.log('Appointment canceled successfully');
-        res.status(200).json({ message: 'Appointment canceled successfully' });
+        // Update the appointment details and mark it as rescheduled
+        appointment.date = date || appointment.date;
+        appointment.time = time || appointment.time;
+        appointment.description = description || appointment.description;
+        appointment.status = 'canceled'; // Change status to rescheduled
+
+        const updatedAppointment = await appointment.save();
+
+        res.status(200).json({
+            message: 'Appointment rescheduled successfully',
+            appointment: updatedAppointment
+        });
     } catch (error) {
-        console.error('Error canceling appointment:', error);
+        console.error('Error rescheduling appointment:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
