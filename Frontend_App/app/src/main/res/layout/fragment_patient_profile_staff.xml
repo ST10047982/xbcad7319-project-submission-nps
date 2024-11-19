@@ -10,26 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnView"
-            android:layout_width="107dp"
-            android:layout_height="45dp"
-            android:backgroundTint="@color/blue"
-            android:text="View"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.898"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.68" />
-
         <ListView
             android:id="@+id/listProfiles"
-            android:layout_width="352dp"
-            android:layout_height="227dp"
+            android:layout_width="343dp"
+            android:layout_height="253dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.474"
@@ -111,10 +95,10 @@
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.213"
+            app:layout_constraintHorizontal_bias="0.244"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.989" />
+            app:layout_constraintVertical_bias="0.971" />
 
         <TextView
             android:id="@+id/txtSelectedPatient"
@@ -123,9 +107,9 @@
             android:text="Details of the selected Patient:"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintHorizontal_bias="0.156"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.748" />
+            app:layout_constraintVertical_bias="0.747" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

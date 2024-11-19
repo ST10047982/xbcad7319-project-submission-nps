@@ -94,10 +94,23 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Call<List<AppointmentDetails>>
 
-    @GET("api/appointments//allappointments")
+    @GET("api/appointments/allappointments")
     fun getAllAppointments(
         @Header("Authorization") token: String
     ): Call<List<AppointmentDetails>>
+
+    @GET("api/appointments/notes/{appointmentId}")
+    fun getAppointmentNotes(
+        @Header("Authorization") token: String,
+        @Path("appointmentId") appointmentId: String
+    ): Call<AppointmentNotesResponse>
+
+
+
+    data class AppointmentNotesResponse(
+        val notes: List<String> // Assuming the response contains a list of notes
+    )
+
 
     // New approve appointment method
     @PUT("api/appointments/{appointmentId}/approve")
@@ -129,6 +142,8 @@ interface ApiService {
     data class PatientNamesResponse(
         val patientNames: List<String>
     )
+
+
 
     // API call to fetch a specific patient's profile by ID
     @GET("api/patient/profile/patient/{id}")
@@ -184,6 +199,7 @@ data class ProfileData(
 
 data class Patient(
     val _id: String,
+    val surname: String,
     val name: String,
     val email: String,
     val phoneNumber: String,
@@ -221,9 +237,8 @@ data class RescheduleAppointmentResponse(
 
 
 data class AppointmentDetails(
-    @SerializedName("_id") val id: String,  // Map _id to id
-    val patientName: String,
-    val patientEmail: String,
+    @SerializedName("_id") val id: String,
+    val patient: Patient, // Add a nested Patient object
     val date: String,
     val time: String,
     val description: String?,
@@ -231,6 +246,10 @@ data class AppointmentDetails(
     val status: String
 )
 
+data class PatientNames(
+    val name: String,
+    val email: String
+)
 
 data class Notification(
     val appointmentId: String,

@@ -22,7 +22,6 @@ import retrofit2.Response
 class PatientProfileStaffFragment : Fragment() {
 
     private lateinit var listView: ListView
-    private lateinit var btnView: Button
     private lateinit var ibtnHome: ImageButton
     private lateinit var txtSelectedPatient: TextView
     private lateinit var sharedPref: SharedPreferences
@@ -41,7 +40,6 @@ class PatientProfileStaffFragment : Fragment() {
 
         // Initialize views
         listView = view.findViewById(R.id.listProfiles)
-        btnView = view.findViewById(R.id.btnView)
         ibtnHome = view.findViewById(R.id.ibtnHome)
         txtSelectedPatient = view.findViewById(R.id.txtSelectedPatient)
 
@@ -59,15 +57,7 @@ class PatientProfileStaffFragment : Fragment() {
         // Load patient names
         loadPatientNames()
 
-        // Button to view selected patient profile
-        btnView.setOnClickListener {
-            if (selectedPatientName != null) {
 
-                Toast.makeText(requireContext(), "Selected: $selectedPatientName", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Please select a patient", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun loadPatientNames() {
@@ -158,7 +148,7 @@ class PatientProfileStaffFragment : Fragment() {
     private fun displayPatientProfile(profile: ProfileData) {
         // Concatenate the patient details into a single string to display in one TextView
         val profileDetails = """
-             Email: ${profile.email}
+            Email: ${profile.email}
             Phone Number: ${profile.phoneNumber}
             Medical Aid: ${profile.medicalAid}
             Medical Aid Number: ${profile.medicalAidNumber}
@@ -186,7 +176,7 @@ class PatientProfileStaffFragment : Fragment() {
                     response.body()?.let { userIdResponse ->
                         val userId = userIdResponse.userId
                         Log.d("UserSearch", "Found user ID: $userId")
-                        Toast.makeText(requireContext(), "User ID: $userId", Toast.LENGTH_SHORT).show()
+
                         getPatientProfile(userId);
                     } ?: run {
                         Log.w("UserSearch", "User ID not found in response.")

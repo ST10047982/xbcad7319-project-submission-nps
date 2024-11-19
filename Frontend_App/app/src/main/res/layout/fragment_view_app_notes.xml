@@ -78,7 +78,7 @@
             app:layout_constraintVertical_bias="0.278" />
 
         <ListView
-            android:id="@+id/listProfiles"
+            android:id="@+id/listAppointments"
             android:layout_width="352dp"
             android:layout_height="227dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,15 +101,15 @@
             app:layout_constraintVertical_bias="0.748" />
 
         <TextView
-            android:id="@+id/txtPatientDetails"
+            android:id="@+id/txtNotes"
             android:layout_width="280dp"
             android:layout_height="169dp"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.213"
+            app:layout_constraintHorizontal_bias="0.167"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.989" />
+            app:layout_constraintVertical_bias="0.971" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
