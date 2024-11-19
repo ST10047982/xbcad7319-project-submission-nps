@@ -62,11 +62,11 @@ interface ApiService {
     ): Call<ResponseBody>
 
     @PUT("api/appointments/{appointmentId}")
- fun rescheduleAppointment(
+    fun rescheduleAppointment(
         @Header("Authorization") token: String,
         @Path("appointmentId") appointmentId: String,
         @Body rescheduleRequest: RescheduleAppointmentRequest
-    ): Call<RescheduleAppointmentResponse>
+    ): Call<Map<String,Any>>
 
     @DELETE("api/appointments/{appointmentId}")
     fun cancelAppointment(
@@ -84,12 +84,9 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Call<NotificationsResponse>
 
-    @GET("api/appointments//myappointments/Allconfirmed")
-    fun getConfirmedAppointments(
-        @Header("Authorization") token: String
-    ): Call<List<AppointmentDetails>>
 
-    @GET("api/appointments/myappointments/Allconfirmed")
+
+    @GET("api/appointments/myappointments")
     fun getAllConfirmedAppointments(
         @Header("Authorization") token: String
     ): Call<List<AppointmentDetails>>
@@ -125,6 +122,7 @@ interface ApiService {
         @Path("appointmentId") appointmentId: String,
         @Body requestBody: Map<String, String> // Or use a data class
     ): Call<ResponseBody>
+
 
     @GET("api/medicalHistory")
     fun getMedicalHistory(@Header("Authorization") token: String): Call<MedicalHistory>
@@ -293,6 +291,7 @@ data class Form2Request(
     val areasConcernedForNeedling: String,
     val date: Date,
     val signature: String,
+    val form2Filled: Boolean
 )
 
 
@@ -328,7 +327,8 @@ data class Form1Request(
     val typeS: String,
     val signature: String?, // Assuming signature is a String, change if it's different
     val placeS: String,
-    val date: Date // The formatted date from the CalendarView
+    val date: Date, // The formatted date from the CalendarView
+    val form1Filled: Boolean
 )
 
 // Data class for Medical History

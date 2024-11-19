@@ -153,18 +153,19 @@ class RescheduleAppPatientFragment : Fragment() {
         tokenResponse?.let {
             val token = it // Directly use the token string
 
-            val call = apiService.getConfirmedAppointments("Bearer $token")
+            val call = apiService.getAllConfirmedAppointments("Bearer $token")
             call.enqueue(object : Callback<List<AppointmentDetails>> {
                 override fun onResponse(call: Call<List<AppointmentDetails>>, response: Response<List<AppointmentDetails>>) {
                     if (response.isSuccessful) {
                         response.body()?.let { appointments ->
                             // Filter the appointments to show only those with status 'approved'
-                            val approvedAppointments = appointments.filter { it.status == "approved" }
+                            val approvedAppointments = appointments.filter {it.status == "approved"  }
                             populateListView(approvedAppointments)
                         } ?: Log.d(TAG, "No appointments found")
                     } else {
-                        Log.e(TAG, "Failed to load appointments: ${response.errorBody()?.string()}")
-                        // showToast("Failed to load appointments")
+                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                        Log.e(TAG, "Failed to load appointments: $errorMessage")
+                        showToast("$errorMessage")
                     }
                 }
 
@@ -221,29 +222,44 @@ class RescheduleAppPatientFragment : Fragment() {
     }
 
     private fun rescheduleAppointment(appointmentId: String, rescheduleRequest: RescheduleAppointmentRequest, token: String) {
-        val call = apiService.rescheduleAppointment("Bearer $token", appointmentId, rescheduleRequest)
+        // Ensure the token is available
+        if (token.isEmpty()) {
+            showToast("Not authenticated. Please login again.")
+            return
+        }
 
-        call.enqueue(object : Callback<RescheduleAppointmentResponse> {
-            override fun onResponse(call: Call<RescheduleAppointmentResponse>, response: Response<RescheduleAppointmentResponse>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        Log.d(TAG, "Appointment rescheduled: ${it.message}")
-                        showToast(it.message)
-                        findNavController().navigate(R.id.action_nav_reschedule_app_patient_to_nav_app)
+        val authToken = "Bearer $token"
+
+        // Make API call to reschedule the appointment
+        apiService.rescheduleAppointment(authToken, appointmentId, rescheduleRequest)
+            .enqueue( object : Callback<Map<String, Any>> {
+                override fun onResponse(
+                    call: Call<Map<String, Any>>,
+                    response: Response<Map<String, Any>>
+                ) {
+                    if (response.isSuccessful) {
+                        // Process the successful response
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            showToast("Appointment Rescheduled Successfully!")
+                            findNavController().navigate(R.id.action_nav_reschedule_app_patient_to_nav_app)
+                        } else {
+                            showToast("Failed to reschedule appointment: Response was incomplete.")
+                            Log.e(TAG, "Successful response but incomplete: $responseBody")
+                        }
+                    } else {
+                        // Handle API error response
+                        val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                        showToast("Failed to reschedule appointment: ${response.message()}")
+                        Log.e(TAG, "API error response: $errorBody")
                     }
-                } else {
-                    Log.e(TAG, "Failed to reschedule appointment: ${response.errorBody()?.string()}")
-                    showToast("Failed to reschedule appointment")
                 }
-            }
 
-            override fun onFailure(call: Call<RescheduleAppointmentResponse>, t: Throwable) {
-                Log.e(TAG, "Network error during rescheduling: ${t.message}")
-                showToast("Network error during rescheduling")
-            }
-        })
-    }
-
+                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                    showToast("Error updating profile: ${t.message}")
+                }
+            })
+       }
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }

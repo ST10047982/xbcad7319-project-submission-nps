@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 object Form2State {
-    var isFormFilled: Boolean = false
+    var form2Filled: Boolean = false
 }
 
 class Form2Fragment : Fragment() {
@@ -91,7 +91,6 @@ class Form2Fragment : Fragment() {
         val btnSave: Button = view.findViewById(R.id.btnSave)
         btnSave.setOnClickListener {
             Log.d("Form2Fragment", "Save button clicked")
-            Form2State.isFormFilled = false // Use the global state
             submitForm2Data()
         }
 
@@ -125,8 +124,6 @@ class Form2Fragment : Fragment() {
         signatureView.clearSignature() // Clear the signature view
         calendarView.setDate(System.currentTimeMillis(), false, true) // Reset the calendar to today's date
         Toast.makeText(context, "All fields cleared", Toast.LENGTH_SHORT).show() // Optional feedback
-
-
     }
 
     // Capture signature as Base64 string
@@ -173,7 +170,7 @@ class Form2Fragment : Fragment() {
             areasConcernedForNeedling = areaConsented,
             date = selectedDate, // Keep the date as Date type
             signature = signature,
-
+            form2Filled = true // This should be true when the form is successfully saved
         )
 
         Log.d("Form2Fragment", "Submitting Form2Request: $form2Request")
@@ -184,18 +181,23 @@ class Form2Fragment : Fragment() {
                 if (response.isSuccessful) {
                     Log.d("Form2Fragment", "Form submitted successfully")
                     Toast.makeText(context, "Form submitted successfully", Toast.LENGTH_SHORT).show()
+
+                    // Update the state to true after successful form submission
+                    Form2State.form2Filled = true
+
+                    // Navigate back to the intake forms
                     findNavController().navigate(R.id.action_nav_form2_to_nav_intake_forms)
-                    Form2State.isFormFilled = true
                 } else {
                     Log.e("Form2Fragment", "Form submission failed: ${response.errorBody()?.string()}")
                     Toast.makeText(context, "Failed to submit form", Toast.LENGTH_SHORT).show()
-                    Form2State.isFormFilled = false
+                    Form2State.form2Filled = false // Ensure form state remains false if submission fails
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.e("Form2Fragment", "Form submission error: ${t.message}")
                 Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Form2State.form2Filled = false // Ensure form state remains false on failure
             }
         })
     }

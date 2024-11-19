@@ -69,7 +69,7 @@ class CancelAppPatientFragment : Fragment() {
             return
         }
 
-        apiService.getAllAppointments("Bearer $token").enqueue(object : Callback<List<AppointmentDetails>> {
+        apiService.getAllConfirmedAppointments("Bearer $token").enqueue(object : Callback<List<AppointmentDetails>> {
             override fun onResponse(call: Call<List<AppointmentDetails>>, response: Response<List<AppointmentDetails>>) {
                 if (response.isSuccessful) {
                     response.body()?.let { appointments ->
@@ -80,9 +80,11 @@ class CancelAppPatientFragment : Fragment() {
                         populateListView()
                     } ?: showToast("No appointments available.")
                 } else {
-                    Log.e(TAG, "Failed to load appointments: ${response.errorBody()?.string()}")
-                    showToast("Failed to load appointments.")
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e(TAG, "Failed to load appointments: $errorMessage")
+                    showToast("$errorMessage")
                 }
+
             }
 
             override fun onFailure(call: Call<List<AppointmentDetails>>, t: Throwable) {

@@ -22,7 +22,6 @@ import com.app.xbcad7319_physiotherapyapp.R
 import com.app.xbcad7319_physiotherapyapp.ui.ApiService
 import com.app.xbcad7319_physiotherapyapp.ui.Form1Request
 import com.app.xbcad7319_physiotherapyapp.ui.SignatureView
-import com.app.xbcad7319_physiotherapyapp.ui.form2.Form2State
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 object Form1State {
-    var isFormFilled: Boolean = false
+    var form1Filled: Boolean = false
 }
 
 
@@ -159,7 +158,7 @@ class Form1Fragment : Fragment() {
         // Save button functionality
         btnSave.setOnClickListener {
             Log.d("Form1Fragment", "Save button clicked")
-            Form1State.isFormFilled = false // Use the global state
+            Form1State.form1Filled = false // Use the global state
             submitForm1Data()
         }
 
@@ -376,7 +375,8 @@ class Form1Fragment : Fragment() {
             typeS = typeSpinner.selectedItem?.toString() ?: "", // Changed from type to typeS
             signature = signature,
             placeS = placeSEditText.text.toString(),
-            date = selectedDate
+            date = selectedDate,
+            form1Filled = true
         )
 
         // Rest of your API submission code remains the same
@@ -386,7 +386,7 @@ class Form1Fragment : Fragment() {
                     Toast.makeText(context, "Data submitted successfully", Toast.LENGTH_SHORT).show()
                     FormFilled = true
                     Log.d("FormStatus", "Form filled status: $FormFilled")
-                    Form1State.isFormFilled = true
+                    Form1State.form1Filled = true
                     // Clear all fields after successful submission
                     clearAllFields()
                 } else {
@@ -394,7 +394,7 @@ class Form1Fragment : Fragment() {
                     Toast.makeText(context, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
 
                     // Ensure FormFilled is false if submission failed
-                    Form1State.isFormFilled = false
+                    Form1State.form1Filled = false
                     Log.d("FormStatus", "Form filled status: $FormFilled")
                 }
             }
