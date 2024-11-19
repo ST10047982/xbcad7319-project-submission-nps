@@ -1,5 +1,5 @@
 const express = require('express');
-const { bookAppointment, rescheduleAppointment, cancelAppointment, approveAppointment, getPatientNotifications, getStaffNotifications, getConfirmedAppointmentsForPatient, getAllAppointmentsForPatient, getAllAppointments, addAppointmentNotes, getAppointmentNotes, getConfirmedAppointments } = require('../controller/appointmentController');
+const { bookAppointment, rescheduleAppointment, cancelAppointment, approveAppointment, getPatientNotifications, getStaffNotifications, getConfirmedAppointmentsForPatient, getAllAppointmentsForPatient, getAllAppointments, addAppointmentNotes, getAppointmentNotes, getConfirmedAppointments, getAppointmentById } = require('../controller/appointmentController');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware'); // Assuming you have a middleware to protect routes
 
@@ -26,7 +26,7 @@ router.get('/allappointments', protect, getAllAppointments);
 // Add notes to a specific appointment
 router.put('/notes/:appointmentId', protect, addAppointmentNotes);
 // View notes for a specific appointment
-router.get('/appointments/:appointmentId/notes', getAppointmentNotes);
+router.get('/notes/:appointmentId', getAppointmentNotes);
 
 
 

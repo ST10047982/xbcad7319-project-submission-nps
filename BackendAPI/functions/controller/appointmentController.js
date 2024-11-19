@@ -322,8 +322,9 @@ const getAllAppointmentsForPatient = async (req, res) => {
         // Find all appointments for the logged-in patient with status "pending" or "confirmed"
         const appointments = await Appointment.find({
             patient: req.user._id, // Logged-in patient's ID
-        }).select('_id patient date time description status') // Explicitly select fields to include appointment ID
-        .populate('patient', 'name email'); // Populate patient details
+        })
+        .select('_id patient date time description status') // Explicitly select fields to include appointment ID
+        .populate('patient', 'name surname email'); // Populate patient details including surname
 
         if (!appointments.length) {
             return res.status(404).json({ message: 'No confirmed appointments found for this patient' });
@@ -336,12 +337,13 @@ const getAllAppointmentsForPatient = async (req, res) => {
     }
 };
 
+
 // View all appointments for all patients regardless of status
 const getAllAppointments = async (req, res) => {
     try {
         // Find all appointments regardless of their status
         const appointments = await Appointment.find({})
-            .populate('patient', 'name email'); 
+            .populate('patient', 'name surname '); // Populate patient details including surname
 
         if (!appointments.length) {
             return res.status(404).json({ message: 'No appointments found' });
@@ -353,6 +355,7 @@ const getAllAppointments = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 const getConfirmedAppointments = async (req, res) => {
     try {
@@ -406,31 +409,56 @@ const addAppointmentNotes = async (req, res) => {
     }
 };
 
-// Get Appointment Notes
+const { ObjectId } = require('mongoose').Types;
+
+
+
+
 const getAppointmentNotes = async (req, res) => {
-    const { appointmentId } = req.params;
+    const appointmentId = req.params.appointmentId.trim(); // Appointment ID from the route parameter
+
+    console.log('Received request to get appointment notes:', { appointmentId });
 
     try {
-        const appointment = await Appointment.findById(appointmentId).populate('patient', 'name email');
+        // Check if the appointmentId is valid
+        if (!ObjectId.isValid(appointmentId)) {
+            return res.status(400).json({ message: 'Invalid appointment ID format' });
+        }
+
+        // Find the appointment by ID and populate the 'patient' field with name and email
+        console.log('Searching for appointment with ID:', appointmentId);
+        const appointment = await Appointment.findById(appointmentId)
+            .populate('patient', 'name email') // Populate the 'patient' field with relevant details
+            .select('notes'); // Select only the 'notes' field from the appointment
 
         if (!appointment) {
+            console.log('Appointment not found:', appointmentId);
             return res.status(404).json({ message: 'Appointment not found' });
         }
 
-        // Verify if the logged-in user is a staff member
-        if (!req.user.isStaff) {
-            return res.status(403).json({ message: 'You do not have permission to view notes for this appointment' });
+        const notes = Array.isArray(appointment.notes) ? appointment.notes : [appointment.notes];
+
+        // Check if there are no notes
+        if (!notes || notes.length === 0 || notes.every(note => !note)) {
+            console.log('No notes for this appointment:', appointmentId);
+            return res.status(200).json({ message: 'No notes for this appointment', notes: [] });
         }
 
+        console.log('Appointment notes retrieved successfully:', { notes });
+
+        // Respond with the appointment notes
         res.status(200).json({
             message: 'Appointment notes retrieved successfully',
-            notes: appointment.notes,
+            notes
         });
+
     } catch (error) {
         console.error('Error fetching appointment notes:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+
 module.exports = {
     bookAppointment,
     rescheduleAppointment,
@@ -444,4 +472,5 @@ module.exports = {
     getConfirmedAppointments,
     addAppointmentNotes,
     getAppointmentNotes,
+
 };
