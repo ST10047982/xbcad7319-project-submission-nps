@@ -56,5 +56,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong with error handling!' });
 });
 
-// Export the app as a Firebase Cloud Function
-exports.api = functions.https.onRequest(app);
+// Export the app as a Firebase 
+// Cloud Function
+exports.api = functions.https.onRequest(app); 
