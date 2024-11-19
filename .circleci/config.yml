@@ -2,11 +2,11 @@ version: 2.1
 executors:
   build-node:
     docker:
-      - image: cimg/node:16
+      - image: cimg/node:16.20.2  # Use a specific version
     working_directory: ~/project
   test-node:
     docker:
-      - image: cimg/node:16
+      - image: cimg/node:16.20.2  # Use a specific version
     working_directory: ~/project
 
 jobs:
