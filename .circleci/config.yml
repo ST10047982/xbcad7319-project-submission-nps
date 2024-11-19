@@ -18,26 +18,31 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Navigate to Functions Directory
+          command: cd BackendAPI/functions
+      - run:
           name: List Directory Contents
-          command: ls -l ~/project/BackendAPI/functions  # List the files in the functions directory
+          command: ls -l
       - run:
           name: Install Dependencies
           command: npm install
       - run:
           name: Run ESLint
-          command: npx eslint .  # Assuming you have ESLint configured
+          command: npx eslint .
 
-  # Job to run automated tests for Node.js API (e.g., using Jest)
   test-node:
     executor: test-node
     steps:
       - checkout
       - run:
+          name: Navigate to Functions Directory
+          command: cd BackendAPI/functions
+      - run:
           name: Install Dependencies
           command: npm install
       - run:
           name: Run Tests
-          command: npm test  # Ensure your test script is set in package.json
+          command: npm test
 
   # Deploy job (to be customized based on your deployment strategy)
   deploy:
