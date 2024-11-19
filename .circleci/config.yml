@@ -13,17 +13,19 @@ executors:
     working_directory: ~/project/BackendAPI/functions  # Adjust based on your project structure
 
 jobs:
-  # Job to install dependencies, build, and lint Node.js API
   build-node:
     executor: build-node
     steps:
       - checkout
       - run:
+          name: List Directory Contents
+          command: ls -l ~/project/BackendAPI/functions  # List the files in the functions directory
+      - run:
           name: Install Dependencies
           command: npm install
       - run:
           name: Run ESLint
-          command: npx eslint .  # This assumes you have ESLint configured
+          command: npx eslint .  # Assuming you have ESLint configured
 
   # Job to run automated tests for Node.js API (e.g., using Jest)
   test-node:
