@@ -1,0 +1,61 @@
+version: 2.1
+
+# Executors define the Docker environment for each job
+executors:
+  build-node:
+    docker:
+      - image: circleci/node:16 # Use an appropriate Node.js image
+    working_directory: ~/project/BackendAPI/functions  # Adjust based on your project structure
+
+  test-node:
+    docker:
+      - image: circleci/node:16 # Use an appropriate Node.js image
+    working_directory: ~/project/BackendAPI/functions  # Adjust based on your project structure
+
+jobs:
+  # Job to install dependencies, build, and lint Node.js API
+  build-node:
+    executor: build-node
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Run ESLint
+          command: npx eslint .  # This assumes you have ESLint configured
+
+  # Job to run automated tests for Node.js API (e.g., using Jest)
+  test-node:
+    executor: test-node
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Run Tests
+          command: npm test  # Ensure your test script is set in package.json
+
+  # Deploy job (to be customized based on your deployment strategy)
+  deploy:
+    docker:
+      - image: cimg/base:stable  # Use a base image for deployment
+    steps:
+      - checkout
+      - run:
+          name: Deploy Application
+          command: echo "Deploy your app here"  # Replace with actual deploy script
+
+# Workflows define the sequence of jobs to be run
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-node    # Run the build job first
+      - test-node:    # Run tests after build job
+          requires:
+            - build-node
+      - deploy:       # Deploy only if tests pass
+          requires:
+            - test-node
