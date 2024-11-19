@@ -52,6 +52,7 @@ class BookAppPatientFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_book_app_patient, container, false)
 
+
         // Initialize SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
 
@@ -121,7 +122,10 @@ class BookAppPatientFragment : Fragment() {
                 }
 
                 // Check if the Form2 state is filled before allowing booking
-                if (!Form2State.isFormFilled || !Form1State.isFormFilled) {
+                if (!Form2State.form2Filled || !Form1State.form1Filled) {
+
+                    Log.d(TAG, "Form1 filled: ${Form1State.form1Filled}")
+                    Log.d(TAG, "Form2 filled: ${Form2State.form2Filled}")
                     Toast.makeText(requireContext(), "Please fill out the required form first", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_nav_book_app_patient_to_nav_intake_forms)
                     return@setOnClickListener

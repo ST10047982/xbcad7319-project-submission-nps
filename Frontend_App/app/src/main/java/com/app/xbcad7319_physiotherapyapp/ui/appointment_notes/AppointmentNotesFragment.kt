@@ -102,7 +102,7 @@ class AppointmentNotesFragment : Fragment() {
         Log.d(TAG, "Using Token: $tokenResponse")
 
         // Make the API call to get confirmed appointments
-        val call = apiService.getAllConfirmedAppointments("Bearer $tokenResponse")
+        val call = apiService.getAllAppointments("Bearer $tokenResponse")
         call.enqueue(object : Callback<List<AppointmentDetails>> {
             override fun onResponse(call: Call<List<AppointmentDetails>>, response: Response<List<AppointmentDetails>>) {
                 if (response.isSuccessful) {
