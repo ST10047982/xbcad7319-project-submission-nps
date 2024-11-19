@@ -16,6 +16,7 @@
                 areasConcernedForNeedling,
                 date,
                 signature,
+                form2Filled: true,
             });
 
             try {
@@ -63,7 +64,8 @@ const createForm1 = async (req, res) => {
         typeS,
         signature,
         placeS,
-        date
+        date,
+        
     } = req.body;
 
     // Validate required fields only
@@ -109,7 +111,8 @@ const createForm1 = async (req, res) => {
         typeS,
         signature,
         placeS,
-        date
+        date,
+        form1Filled: true
     });
 
     try {

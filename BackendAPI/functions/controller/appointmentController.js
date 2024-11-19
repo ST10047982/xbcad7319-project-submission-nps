@@ -86,9 +86,10 @@ const cancelAppointment = async (req, res) => {
         }
 
         // Check if the appointment status is 'approved'
-        if (appointment.status !== 'approved') {
-            return res.status(400).json({ message: 'Only approved appointments can be canceled' });
+        if (appointment.status !== 'approved' && appointment.status !== 'rescheduled') {
+            return res.status(400).json({ message: 'Only approved or rescheduled appointments can be canceled' });
         }
+        
 
         // Check if the logged-in user is allowed to reschedule this appointment
         if (appointment.patient.toString() !== req.user._id.toString()) {
@@ -104,7 +105,7 @@ const cancelAppointment = async (req, res) => {
         const updatedAppointment = await appointment.save();
 
         res.status(200).json({
-            message: 'Appointment rescheduled successfully',
+            message: 'Appointment canceled successfully',
             appointment: updatedAppointment
         });
     } catch (error) {
@@ -319,23 +320,26 @@ const getConfirmedAppointmentsForPatient = async (req, res) => {
 
 const getAllAppointmentsForPatient = async (req, res) => {
     try {
-        // Find all appointments for the logged-in patient with status "pending" or "confirmed"
+        // Find all appointments for the logged-in patient with status "approved" or "rescheduled"
         const appointments = await Appointment.find({
             patient: req.user._id, // Logged-in patient's ID
+            status: { $in: ['approved', 'rescheduled'] } // Filter by status "approved" or "rescheduled"
         })
         .select('_id patient date time description status') // Explicitly select fields to include appointment ID
         .populate('patient', 'name surname email'); // Populate patient details including surname
 
-        if (!appointments.length) {
-            return res.status(404).json({ message: 'No confirmed appointments found for this patient' });
+        // Check if no appointments are found
+        if (appointments.length === 0) {
+            return res.status(404).json({ message: 'No approved or rescheduled appointments found for this patient' });
         }
 
-        res.status(200).json(appointments); // Send the response including the appointment ID
+        res.status(200).json(appointments); // Send the response including the appointment details
     } catch (error) {
-        console.error('Error fetching confirmed appointments for patient:', error);
+        console.error('Error fetching appointments for patient:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 
 // View all appointments for all patients regardless of status

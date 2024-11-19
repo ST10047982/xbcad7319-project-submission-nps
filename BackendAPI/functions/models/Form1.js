@@ -158,7 +158,8 @@ const form1Schema = new mongoose.Schema({
     date: {
         type: Date,
         required: true // Ensure the date is provided
-    }
+    },
+    form1Filled: { type: Boolean, default: false },
 });
 
 // Create a model from the schema

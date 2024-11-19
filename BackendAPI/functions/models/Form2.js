@@ -18,7 +18,8 @@ const form2Schema = new mongoose.Schema({
     signature: {
         type: String,
         required: true, // Ensure the signature is provided
-    }
+    },
+    form2Filled: { type: Boolean, default: false },
 });
 
 
