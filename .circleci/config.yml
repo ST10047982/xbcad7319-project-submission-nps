@@ -23,7 +23,7 @@ jobs:
           name: Run ESLint
           command: |
             cd BackendAPI/functions
-            npx eslint .
+            npm eslint .
 
   test-node:
     executor: test-node
