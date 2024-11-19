@@ -19,8 +19,13 @@ jobs:
           command: |
             cd BackendAPI/functions
             npm install
+      - run:
+          name: Run ESLint
+          command: |
+            cd BackendAPI/functions
+            npx eslint .
 
-   test-node:
+  test-node:
     executor: test-node
     steps:
       - checkout
@@ -33,7 +38,7 @@ jobs:
           name: Run Tests
           command: |
             cd BackendAPI/functions
-            npm test 
+            npm test  # This will now work if "test" is defined in package.json
 
   deploy:
     docker:
