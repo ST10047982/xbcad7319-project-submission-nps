@@ -20,7 +20,7 @@ jobs:
             cd BackendAPI/functions
             npm install
 
-  test-node:
+   test-node:
     executor: test-node
     steps:
       - checkout
@@ -33,7 +33,7 @@ jobs:
           name: Run Tests
           command: |
             cd BackendAPI/functions
-            npm test
+            npm test 
 
   deploy:
     docker:
