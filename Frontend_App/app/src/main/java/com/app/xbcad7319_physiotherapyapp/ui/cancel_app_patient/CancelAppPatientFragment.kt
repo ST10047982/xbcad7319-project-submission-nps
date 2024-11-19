@@ -25,7 +25,8 @@ class CancelAppPatientFragment : Fragment() {
     private lateinit var ibtnHome: ImageButton
     private lateinit var sharedPref: SharedPreferences
     private val apiService: ApiService by lazy {
-        com.app.xbcad7319_physiotherapyapp.ui.ApiClient.getRetrofitInstance(requireContext()).create(ApiService::class.java)
+        com.app.xbcad7319_physiotherapyapp.ui.ApiClient.getRetrofitInstance(requireContext())
+            .create(ApiService::class.java)
     }
     private var appointmentsList = mutableListOf<AppointmentDetails>()
     private var selectedAppointment: AppointmentDetails? = null
@@ -38,10 +39,16 @@ class CancelAppPatientFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_cancel_app_patient, container, false)
 
         sharedPref = requireActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        initializeUIComponents(view)
+        fetchAndDisplayAppointments()
+
+        return view
+    }
+
+    private fun initializeUIComponents(view: View) {
         listAppointments = view.findViewById(R.id.listAppointments)
         btnCancelAppointment = view.findViewById(R.id.btnCancel)
-        ibtnHome =  view.findViewById(R.id.ibtnHome)
-        fetchAndDisplayAppointments()
+        ibtnHome = view.findViewById(R.id.ibtnHome)
 
         btnCancelAppointment.setOnClickListener {
             selectedAppointment?.let {
@@ -49,88 +56,87 @@ class CancelAppPatientFragment : Fragment() {
             } ?: showToast("Please select an appointment to cancel.")
         }
 
-        // Home button navigation
-
         ibtnHome.setOnClickListener {
             findNavController().navigate(R.id.action_nav_cancel_app_patient_to_nav_app)
         }
-        return view
     }
 
     private fun fetchAndDisplayAppointments() {
-        val tokenResponse = sharedPref.getString("bearerToken", null)
+        val token = sharedPref.getString("bearerToken", null)
 
-        tokenResponse?.let { token ->
-            val call = apiService.getAllAppointments("Bearer $token")
-            call.enqueue(object : Callback<List<AppointmentDetails>> {
-                override fun onResponse(call: Call<List<AppointmentDetails>>, response: Response<List<AppointmentDetails>>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let { appointments ->
-                            appointmentsList.clear()
-                            appointmentsList.addAll(appointments.filter {
-                                it.status == "approved" || it.status == "rescheduled"
-                            })
-                            populateListView()
-                        } ?: showToast("No appointments available.")
-                    } else {
-                        Log.e(TAG, "Failed to load appointments: ${response.errorBody()?.string()}")
-                        showToast("Failed to load appointments.")
-                    }
-                }
+        if (token == null) {
+            showToast("User not logged in.")
+            return
+        }
 
-                override fun onFailure(call: Call<List<AppointmentDetails>>, t: Throwable) {
-                    Log.e(TAG, "Network error: ${t.message}")
-                    showToast("Network error.")
+        apiService.getAllAppointments("Bearer $token").enqueue(object : Callback<List<AppointmentDetails>> {
+            override fun onResponse(call: Call<List<AppointmentDetails>>, response: Response<List<AppointmentDetails>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { appointments ->
+                        appointmentsList.clear()
+                        appointmentsList.addAll(appointments.filter {
+                            it.status == "approved" || it.status == "rescheduled"
+                        })
+                        populateListView()
+                    } ?: showToast("No appointments available.")
+                } else {
+                    Log.e(TAG, "Failed to load appointments: ${response.errorBody()?.string()}")
+                    showToast("Failed to load appointments.")
                 }
-            })
-        } ?: showToast("User not logged in.")
+            }
+
+            override fun onFailure(call: Call<List<AppointmentDetails>>, t: Throwable) {
+                Log.e(TAG, "Network error: ${t.message}", t)
+                showToast("Network error.")
+            }
+        })
     }
 
     private fun populateListView() {
-        val appointmentDescriptions = appointmentsList.map { appointment ->
-            val datePart = appointment.date.split("T")[0]
-            "Date: $datePart\nTime: ${appointment.time}\nDescription: ${appointment.description}"
-        }
-
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, appointmentDescriptions)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            appointmentsList.map {
+                "Date: ${it.date.split("T")[0]}\nTime: ${it.time}\nDescription: ${it.description}"
+            }
+        )
         listAppointments.adapter = adapter
 
         listAppointments.setOnItemClickListener { _, _, position, _ ->
             selectedAppointment = appointmentsList[position]
-
         }
     }
 
     private fun cancelAppointment(appointmentId: String) {
-        val tokenResponse = sharedPref.getString("bearerToken", null)
+        val token = sharedPref.getString("bearerToken", null)
 
-        tokenResponse?.let { token ->
-            val call = apiService.cancelAppointment("Bearer $token", appointmentId)
+        if (token == null) {
+            showToast("User not logged in.")
+            return
+        }
 
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    if (response.isSuccessful) {
-                        showToast("Appointment canceled successfully.")
-                        removeAppointmentFromList(appointmentId)
-                    } else {
-                        val errorResponse = response.errorBody()?.string() ?: "Unknown error"
-                        Log.e(TAG, "Failed to cancel appointment: HTTP ${response.code()} - $errorResponse")
-                        showToast("Failed to cancel appointment.")
-                    }
+        apiService.cancelAppointment("Bearer $token", appointmentId).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    showToast("Appointment canceled successfully.")
+                    removeAppointmentFromList(appointmentId)
+                } else {
+                    Log.e(TAG, "Failed to cancel appointment: ${response.errorBody()?.string()}")
+                    showToast("Failed to cancel appointment.")
                 }
+            }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.e(TAG, "Network error while canceling appointment: ${t.message}", t)
-                    showToast("An error occurred: ${t.message}")
-                }
-            })
-        } ?: showToast("User not logged in.")
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e(TAG, "Network error while canceling appointment: ${t.message}", t)
+                showToast("An error occurred: ${t.message}")
+            }
+        })
     }
 
     private fun removeAppointmentFromList(appointmentId: String) {
         appointmentsList = appointmentsList.filter { it.id != appointmentId }.toMutableList()
         populateListView()
-        selectedAppointment = null // Reset selected appointment
+        selectedAppointment = null
     }
 
     private fun showToast(message: String) {
