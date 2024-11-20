@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.app.xbcad7319_physiotherapyapp"
+    namespace = "com.xbcad.xbcad7319_physiotherapyapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.app.xbcad7319_physiotherapyapp"
+        applicationId = "com.xbcad.xbcad7319_physiotherapyapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.fragment.testing)
+    implementation(libs.androidx.navigation.testing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,9 +68,21 @@ dependencies {
     //signiture
     implementation ("com.github.gcacace:signature-pad:1.3.1")
 
+    // Unit Testing Libraries
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:4.8.0")
+    testImplementation ("org.robolectric:robolectric:4.8")
 
+    // Espresso and Android Testing Libraries
+    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-idling-resource:3.5.0")
 
+    // Navigation Testing
+    androidTestImplementation ("androidx.navigation:navigation-testing:2.7.0")
 
-
+    // AndroidX Test Support Libraries
+    androidTestImplementation ("androidx.test:core:1.6.0") // Use 1.6.0 instead
+    androidTestImplementation ("androidx.test.runner:1.6.0")
 }
 

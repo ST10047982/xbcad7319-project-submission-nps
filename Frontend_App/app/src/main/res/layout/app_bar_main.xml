@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.xbcad7319_physiotherapyapp.ui.MainActivity">
+    tools:context="com.xbcad.xbcad7319_physiotherapyapp.com.xbcad7319.xbcad7319_physiotherapyapp.ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
