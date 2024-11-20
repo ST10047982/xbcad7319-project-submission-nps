@@ -3,7 +3,12 @@ version: 2.1
 executors:
   build-node:
     docker:
-      - image: cimg/node:16.20.2  # Use Node.js version compatible with your project
+      - image: cimg/node:16.20.2  # Node.js version for backend
+    working_directory: ~/project
+
+  android-executor:
+    docker:
+      - image: cimg/android:33.0.2  # Android image with SDK
     working_directory: ~/project
 
 jobs:
@@ -17,7 +22,6 @@ jobs:
             cd BackendAPI/functions
             npm install
 
-jobs:
   build-android:
     executor: android-executor
     steps:
@@ -54,7 +58,7 @@ jobs:
           command: ./gradlew connectedDebugAndroidTest
 
   deploy:
-    executor: build-node  # Ensure deploy job uses an executor
+    executor: build-node
     steps:
       - checkout
       - run:
@@ -66,6 +70,11 @@ workflows:
   build-and-test:
     jobs:
       - build-node
-      - test-node:
+      - build-android
+      - test-android:
+          requires:
+            - build-android
+      - deploy:
           requires:
             - build-node
+            - test-android
