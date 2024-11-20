@@ -1,15 +1,13 @@
 version: 2.1
-
 executors:
   build-node:
     docker:
-      - image: cimg/node:16.20.2  # Use a specific version
-    working_directory: ~/project  # Update this if necessary to the correct directory
-
+      - image: cimg/node:16.20.2
+    working_directory: ~/project/BackendAPI/functions  # Updated path
   test-node:
     docker:
-      - image: cimg/node:16.20.2  # Use the same node version for consistency
-    working_directory: ~/project  # Update this to the directory where package.json is located
+      - image: cimg/node:16.20.2
+    working_directory: ~/project/BackendAPI/functions  # Updated path
 
 jobs:
   build-node:
@@ -17,15 +15,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check directory structure
-          command: ls -la /home/circleci/project/BackendAPI/functions  # Verify if package.json exists
+          name: Navigate to correct directory
+          command: cd BackendAPI/functions
       - run:
           name: Install Dependencies
           command: npm install
-      # Uncomment and adjust this if you want to run ESLint during the build
-      #- run:
-      #    name: Run ESLint
-      #    command: npx eslint .
+      - run:
+          name: Build Project
+          command: npm run build  # Add a build script if you have one
 
   test-node:
     executor: test-node
@@ -35,24 +32,18 @@ jobs:
           keys:
             - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
+          name: Navigate to correct directory
+          command: cd BackendAPI/functions
+      - run:
           name: Install Dependencies
           command: npm install
       - save_cache:
           paths:
-            - BackendAPI/functions/node_modules
+            - node_modules
           key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
           name: Run Tests
           command: npm test
-
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run:
-          name: Deploy Application
-          command: echo "Deploy your app here"
 
 workflows:
   version: 2
