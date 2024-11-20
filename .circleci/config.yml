@@ -3,9 +3,8 @@ version: 2.1
 executors:
   build-node:
     docker:
-      - image: cimg/node:16.20.2  # Use a specific version
+      - image: cimg/node:16.20.2  # Use Node.js version compatible with your project
     working_directory: ~/project
-
 
 jobs:
   build-node:
@@ -17,29 +16,23 @@ jobs:
           command: |
             cd BackendAPI/functions
             npm install
-     # - run:
-     #     name: Run ESLint
-     #     command: |
-     #       cd BackendAPI/functions
-     #       npx eslint .
 
   test-node:
-    executor: test-node
+    executor: build-node  # Fix reference to the existing executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
           name: Install Dependencies
           command: |
             cd BackendAPI/functions
             npm install
-      - run:
-          name: Debug Directory and Scripts
-          command: |
-            cd BackendAPI/functions
-            pwd
-            ls -la
-            cat package.json
-            npm run
+      - save_cache:
+          paths:
+            - BackendAPI/functions/node_modules
+          key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
           name: Run Tests
           command: |
@@ -47,8 +40,7 @@ jobs:
             npm test
 
   deploy:
-    docker:
-      - image: cimg/base:stable
+    executor: build-node  # Ensure deploy job uses an executor
     steps:
       - checkout
       - run:
