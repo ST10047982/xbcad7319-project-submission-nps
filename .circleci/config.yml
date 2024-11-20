@@ -19,7 +19,11 @@ jobs:
           command: |
             cd BackendAPI/functions
             npm install
-
+     # - run:
+     #     name: Run ESLint
+     #     command: |
+     #       cd BackendAPI/functions
+     #       npx eslint .
 
   test-node:
     executor: test-node
@@ -48,6 +52,14 @@ jobs:
             cd BackendAPI/functions
             npm test
 
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Deploy Application
+          command: echo "Deploy your app here"
 
 workflows:
   version: 2
