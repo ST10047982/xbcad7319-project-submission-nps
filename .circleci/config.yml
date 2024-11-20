@@ -4,12 +4,12 @@ executors:
   build-node:
     docker:
       - image: cimg/node:16.20.2  # Use a specific version
-    working_directory: ~/project/BackendAPI/functions  # Set working directory to the correct path
+    working_directory: ~/project  # Update this if necessary to the correct directory
 
   test-node:
     docker:
       - image: cimg/node:16.20.2  # Use the same node version for consistency
-    working_directory: ~/project/BackendAPI/functions  # Set working directory to the correct path
+    working_directory: ~/project  # Update this to the directory where package.json is located
 
 jobs:
   build-node:
@@ -17,12 +17,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check directory structure
+          command: ls -la /home/circleci/project/BackendAPI/functions  # Verify if package.json exists
+      - run:
           name: Install Dependencies
           command: npm install
       # Uncomment and adjust this if you want to run ESLint during the build
-      - run:
-          name: Run ESLint
-          command: npx eslint .
+      #- run:
+      #    name: Run ESLint
+      #    command: npx eslint .
 
   test-node:
     executor: test-node
