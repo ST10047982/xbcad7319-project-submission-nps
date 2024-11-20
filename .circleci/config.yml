@@ -19,11 +19,7 @@ jobs:
           command: |
             cd BackendAPI/functions
             npm install
-     # - run:
-     #     name: Run ESLint
-     #     command: |
-     #       cd BackendAPI/functions
-     #       npx eslint .
+
 
   test-node:
     executor: test-node
