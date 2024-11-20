@@ -17,27 +17,41 @@ jobs:
             cd BackendAPI/functions
             npm install
 
-  test-node:
-    executor: build-node  # Fix reference to the existing executor
+jobs:
+  build-android:
+    executor: android-executor
+    steps:
+      - checkout
+      - run:
+          name: Set Up Gradle
+          command: |
+            mkdir -p ~/.gradle
+            echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
+            echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
+      - restore_cache:
+          keys:
+            - gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - run:
+          name: Build Android App
+          command: ./gradlew assembleDebug
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+  test-android:
+    executor: android-executor
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
+            - gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - run:
-          name: Install Dependencies
-          command: |
-            cd BackendAPI/functions
-            npm install
-      - save_cache:
-          paths:
-            - BackendAPI/functions/node_modules
-          key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
+          name: Run Unit Tests
+          command: ./gradlew testDebugUnitTest
       - run:
-          name: Run Tests
-          command: |
-            cd BackendAPI/functions
-            npm test
+          name: Run Instrumentation Tests
+          command: ./gradlew connectedDebugAndroidTest
 
   deploy:
     executor: build-node  # Ensure deploy job uses an executor
