@@ -23,28 +23,28 @@ jobs:
      #       cd BackendAPI/functions
      #       npx eslint .
 
- test-node:
-  executor: test-node
-  steps:
-    - checkout
-    - run:
-        name: Install Dependencies
-        command: |
-          cd BackendAPI/functions
-          npm install
-    - run:
-        name: Debug Directory and Scripts
-        command: |
-          cd BackendAPI/functions
-          pwd
-          ls -la
-          cat package.json
-          npm run
-    - run:
-        name: Run Tests
-        command: |
-          cd BackendAPI/functions
-          npm test
+  test-node:
+    executor: test-node
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            cd BackendAPI/functions
+            npm install
+      - run:
+          name: Debug Directory and Scripts
+          command: |
+            cd BackendAPI/functions
+            pwd
+            ls -la
+            cat package.json
+            npm run
+      - run:
+          name: Run Tests
+          command: |
+            cd BackendAPI/functions
+            npm test
 
   deploy:
     docker:
