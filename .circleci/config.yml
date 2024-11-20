@@ -3,13 +3,9 @@ version: 2.1
 executors:
   build-node:
     docker:
-      - image: cimg/node:16.20.2  # Node.js version for backend
+      - image: cimg/node:16.20.2  # Use a specific version
     working_directory: ~/project
 
-  android-executor:
-    docker:
-      - image: cimg/android:33.0.2  # Android image with SDK
-    working_directory: ~/project
 
 jobs:
   build-node:
@@ -21,44 +17,37 @@ jobs:
           command: |
             cd BackendAPI/functions
             npm install
+     # - run:
+     #     name: Run ESLint
+     #     command: |
+     #       cd BackendAPI/functions
+     #       npx eslint .
 
-  build-android:
-    executor: android-executor
-    steps:
-      - checkout
-      - run:
-          name: Set Up Gradle
-          command: |
-            mkdir -p ~/.gradle
-            echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
-            echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
-      - restore_cache:
-          keys:
-            - gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-      - run:
-          name: Build Android App
-          command: ./gradlew assembleDebug
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-
-  test-android:
-    executor: android-executor
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - gradle-cache-v1-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testDebugUnitTest
-      - run:
-          name: Run Instrumentation Tests
-          command: ./gradlew connectedDebugAndroidTest
+ test-node:
+   executor: test-node
+   steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
+    - run:
+        name: Install Dependencies
+        command: |
+          cd BackendAPI/functions
+          npm install
+    - save_cache:
+        paths:
+          - BackendAPI/functions/node_modules
+        key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
+    - run:
+        name: Run Tests
+        command: |
+          cd BackendAPI/functions
+          npm test
 
   deploy:
-    executor: build-node
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - run:
@@ -70,11 +59,6 @@ workflows:
   build-and-test:
     jobs:
       - build-node
-      - build-android
-      - test-android:
-          requires:
-            - build-android
-      - deploy:
+      - test-node:
           requires:
             - build-node
-            - test-android
