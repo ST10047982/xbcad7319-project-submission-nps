@@ -1,42 +1,46 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@5
+executors:
+  build-node:
+    docker:
+      - image: cimg/node:16.20.2  # Use a specific version
+    working_directory: ~/project/BackendAPI/functions  # Set working directory to the correct path
+
+  test-node:
+    docker:
+      - image: cimg/node:16.20.2  # Use the same node version for consistency
+    working_directory: ~/project/BackendAPI/functions  # Set working directory to the correct path
 
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
-    working_directory: ~/frontend_app
+  build-node:
+    executor: build-node
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install Dependencies
+          command: npm install
+      # Uncomment and adjust this if you want to run ESLint during the build
+      - run:
+          name: Run ESLint
+          command: npx eslint .
+
+  test-node:
+    executor: test-node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - BackendAPI/functions/node_modules
+          key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
           name: Run Tests
           command: npm test
-
-  build-node:
-    # Build node projects
-    executor: node/default
-    working_directory: ~/frontend_app
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run Build
-          command: npm run build
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy build output to artifacts directory
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
 
   deploy:
     docker:
