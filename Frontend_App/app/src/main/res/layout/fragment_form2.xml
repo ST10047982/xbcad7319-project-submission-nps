@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.form2.Form2Fragment">
+    tools:context="com.xbcad.xbcad7319_physiotherapyapp.ui.form2.Form2Fragment">
 
     <!-- Scrollable container -->
     <ScrollView
@@ -221,7 +221,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Signature View -->
-            <com.app.xbcad7319_physiotherapyapp.ui.SignatureView
+            <com.xbcad.xbcad7319_physiotherapyapp.ui.SignatureView
                 android:id="@+id/signature_view"
                 android:layout_width="401dp"
                 android:layout_height="155dp"

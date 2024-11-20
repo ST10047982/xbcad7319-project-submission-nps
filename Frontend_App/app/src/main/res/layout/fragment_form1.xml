@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.form1.Form1Fragment">
+    tools:context="com.xbcad.xbcad7319_physiotherapyapp.ui.form1.Form1Fragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -588,7 +588,7 @@
                 android:textSize="15sp" />
 
 
-            <com.app.xbcad7319_physiotherapyapp.ui.SignatureView
+            <com.xbcad.xbcad7319_physiotherapyapp.ui.SignatureView
                 android:id="@+id/signatureView2"
                 android:layout_width="match_parent"
                 android:background="@color/grey"

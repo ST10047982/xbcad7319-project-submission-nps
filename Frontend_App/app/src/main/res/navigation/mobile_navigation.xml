@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_main_menu"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.main_menu.MainMenuFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.main_menu.MainMenuFragment"
         android:label="Main Menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/nav_login_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.login_patient.LoginPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.login_patient.LoginPatientFragment"
         android:label="Login - Patient"
         tools:layout="@layout/fragment_login_patient" >
         <action
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/nav_home_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.home_patient.HomePatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.home_patient.HomePatientFragment"
         android:label="Home - Patient"
         tools:layout="@layout/fragment_home_patient" >
         <action
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/nav_medical_history"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.medical_history.MedicalHistoryFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.medical_history.MedicalHistoryFragment"
         android:label="Medical History"
         tools:layout="@layout/fragment_medical_history" >
         <action
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/nav_notifications_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.notifications_patient.NotificationsPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.notifications_patient.NotificationsPatientFragment"
         android:label="Notifications"
         tools:layout="@layout/fragment_notifications_patient" >
         <action
@@ -90,7 +90,7 @@
 
     <fragment
         android:id="@+id/nav_patient_profile"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.profile_patient.ProfilePatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.profile_patient.ProfilePatientFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile_patient" >
         <action
@@ -102,7 +102,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_medical_tests"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.medical_tests.MedicalTestsFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.medical_tests.MedicalTestsFragment"
         android:label="Medical Tests"
         tools:layout="@layout/fragment_medical_tests" >
         <action
@@ -117,7 +117,7 @@
 
     <fragment
         android:id="@+id/nav_app"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.app_patient.app_patient.AppointmentPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.app_patient.app_patient.AppointmentPatientFragment"
         android:label="Appointments "
         tools:layout="@layout/fragment_appointment_client" >
         <action
@@ -136,7 +136,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_book_app_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.book_app_patient.BookAppPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.book_app_patient.BookAppPatientFragment"
         android:label="Book Appointments"
         tools:layout="@layout/fragment_book_app_patient" >
         <action
@@ -150,7 +150,7 @@
 
     <fragment
         android:id="@+id/nav_reschedule_app_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.reschedule_app_patient.RescheduleAppPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.reschedule_app_patient.RescheduleAppPatientFragment"
         android:label="Reschedule Appointment"
         tools:layout="@layout/fragment_reschedule_app_patient" >
         <action
@@ -159,7 +159,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_cancel_app_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.cancel_app_patient.CancelAppPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.cancel_app_patient.CancelAppPatientFragment"
         android:label="Cancel Appointment"
         tools:layout="@layout/fragment_cancel_app_patient" >
         <action
@@ -170,7 +170,7 @@
 
     <fragment
         android:id="@+id/nav_home_staff"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.home_staff.HomeStaffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.home_staff.HomeStaffFragment"
         android:label="Home - Staff"
         tools:layout="@layout/fragment_home_staff" >
         <action
@@ -203,7 +203,7 @@
 
     <fragment
         android:id="@+id/nav_notifications_staff"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.notifications_staff.NotificationsStaffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.notifications_staff.NotificationsStaffFragment"
         android:label="Notifications "
         tools:layout="@layout/fragment_notifications_staff" >
         <action
@@ -212,7 +212,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_app_notes"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.appointment_notes.AppointmentNotesFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.appointment_notes.AppointmentNotesFragment"
         android:label="Patient Notes"
         tools:layout="@layout/fragment_appointment_notes" >
         <action
@@ -221,7 +221,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_view_patient_profile"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.patient_profile_staff.PatientProfileStaffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.patient_profile_staff.PatientProfileStaffFragment"
         android:label="View Patient Profile"
         tools:layout="@layout/fragment_patient_profile_staff" >
         <action
@@ -230,7 +230,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_billing"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.billing.BillingFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.billing.BillingFragment"
         android:label="Billing"
         tools:layout="@layout/fragment_billing" >
         <action
@@ -239,7 +239,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_app_staff"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.app_staff.AppSatffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.app_staff.AppSatffFragment"
         android:label="Appointments "
         tools:layout="@layout/fragment_app_satff" >
         <action
@@ -249,7 +249,7 @@
 
     <fragment
         android:id="@+id/nav_login_staff"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.login_staff.LoginStaffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.login_staff.LoginStaffFragment"
         android:label="Login - Staff "
         tools:layout="@layout/fragment_login_staff" >
         <action
@@ -264,7 +264,7 @@
 
     <fragment
         android:id="@+id/nav_register_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.register_patient.RegisterPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.register_patient.RegisterPatientFragment"
         android:label="Register - Patient"
         tools:layout="@layout/fragment_register_patient" >
         <action
@@ -273,7 +273,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_forget_password_staff"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.forget_password_staff.ForgetPasswordStaffFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.forget_password_staff.ForgetPasswordStaffFragment"
         android:label="Forget Password"
         tools:layout="@layout/fragment_forget_password_staff" >
         <action
@@ -283,7 +283,7 @@
 
     <fragment
         android:id="@+id/nav_forget_password_patient"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.forget_password_patient.ForgetPasswordPatientFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.forget_password_patient.ForgetPasswordPatientFragment"
         android:label="Forget Password"
         tools:layout="@layout/fragment_forget_password_patient" >
         <action
@@ -293,7 +293,7 @@
 
     <fragment
         android:id="@+id/nav_intake_forms"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.intake_forms.IntakeFormsFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.intake_forms.IntakeFormsFragment"
         android:label="Intake Forms"
         tools:layout="@layout/fragment_intake_forms">
         <action
@@ -310,7 +310,7 @@
 
     <fragment
         android:id="@+id/nav_form1"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.form1.Form1Fragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.form1.Form1Fragment"
         android:label="Form 1 Details"
         tools:layout="@layout/fragment_form1">
 
@@ -323,7 +323,7 @@
 
     <fragment
         android:id="@+id/nav_form2"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.form2.Form2Fragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.form2.Form2Fragment"
         android:label="Form 2 Details"
         tools:layout="@layout/fragment_form2">
 
@@ -334,7 +334,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_view_app_notes"
-        android:name="com.app.xbcad7319_physiotherapyapp.ui.view_app_notes.ViewAppNotesFragment"
+        android:name="com.xbcad.xbcad7319_physiotherapyapp.ui.view_app_notes.ViewAppNotesFragment"
         android:label="View Appointment Notes"
         tools:layout="@layout/fragment_view_app_notes" >
         <action
