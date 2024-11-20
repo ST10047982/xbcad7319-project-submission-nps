@@ -1,13 +1,11 @@
 version: 2.1
+
 executors:
   build-node:
     docker:
       - image: cimg/node:16.20.2  # Use a specific version
     working_directory: ~/project
-  test-node:
-    docker:
-      - image: cimg/node:16.20.2  # Use a specific version
-    working_directory: ~/project
+
 
 jobs:
   build-node:
@@ -26,7 +24,7 @@ jobs:
      #       npx eslint .
 
   test-node:
-    executor: test-node
+    executor: build-node
     steps:
       - checkout
       - run:
@@ -69,10 +67,3 @@ workflows:
       - test-node:
           requires:
             - build-node
-          steps:
-            - checkout
-            - run:
-                name: Clear NPM Cache
-                command: |
-                  cd BackendAPI/functions
-                  npm cache clean --force
