@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.medical_tests.MedicalTestsFragment">
+    tools:context="com.xbcad.xbcad7319_physiotherapyapp.ui.medical_tests.MedicalTestsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

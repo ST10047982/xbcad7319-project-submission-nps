@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.app_staff.AppSatffFragment">
+    tools:context="com.xbcad.xbcad7319_physiotherapyapp.ui.app_staff.AppSatffFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
