@@ -43,6 +43,7 @@ jobs:
             cd BackendAPI/functions
             ls -la
             cat package.json
+            npm run # Confirm available scripts
 
       - run:
           name: Run Tests
