@@ -24,9 +24,6 @@ class SignatureView(context: Context, attrs: AttributeSet) : View(context, attrs
     private var lastX = 0f
     private var lastY = 0f
 
-    init {
-        // Initialization can be handled here if needed
-    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
