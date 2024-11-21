@@ -3,11 +3,7 @@ executors:
   build-node:
     docker:
       - image: cimg/node:16.20.2
-    working_directory: ~/project/BackendAPI/functions  # Updated path
-  test-node:
-    docker:
-      - image: cimg/node:16.20.2
-    working_directory: ~/project/BackendAPI/functions  # Updated path
+    working_directory: ~/project/BackendAPI/functions  # Explicitly set working directory
 
 jobs:
   build-node:
@@ -15,41 +11,31 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Navigate to correct directory
-          command: cd BackendAPI/functions
+          name: Verify Directory and Package JSON
+          command: |
+            pwd
+            ls -la
+            cat package.json  # This will help verify the package.json is where you expect
       - run:
           name: Install Dependencies
           command: npm install
       - run:
           name: Build Project
-          command: npm run build  # Add a build script if you have one
+          command: npm run build  # If you have a build script
 
   test-node:
-    executor: test-node
+    executor: build-node  # Use the same executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
-          name: Navigate to correct directory
-          command: cd BackendAPI/functions
+          name: Verify Directory and Package JSON
+          command: |
+            pwd
+            ls -la
+            cat package.json
       - run:
           name: Install Dependencies
           command: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-deps-{{ checksum "BackendAPI/functions/package-lock.json" }}
       - run:
           name: Run Tests
           command: npm test
-
-workflows:
-  version: 2
-  build-and-test:
-    jobs:
-      - build-node
-      - test-node:
-          requires:
-            - build-node
